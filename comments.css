@@ -1,0 +1,39 @@
+/* One persistent color per comment, shared by the pin, bubble, and list. */
+.canvas-comment .comment-pin{background:var(--comment-fill);color:var(--comment-ink);border:2px solid var(--comment-stroke);box-shadow:0 3px 10px #0002}
+.canvas-comment .comment-pin:hover{background:var(--comment-fill);filter:brightness(1.06)}
+.canvas-comment:not(.collapsed)>.comment-pin{display:none}
+.canvas-comment .comment-body{background:var(--comment-fill);border:0;cursor:pointer;padding:16px 18px 14px;transition:filter .15s}
+.canvas-comment .comment-body:hover{filter:brightness(1.035)}
+.canvas-comment .comment-body:after{background:var(--comment-fill);border:0;left:20px}
+.canvas-comment .comment-body p{color:var(--comment-ink);font:500 14px/1.5 var(--font);margin:0 0 7px}
+.comment-timestamp{display:block;text-align:center;color:var(--comment-ink);opacity:.65;font:500 11px/1.4 var(--font)}
+.note-list-item,.note-list-item:nth-child(n),.note-list-item:hover,.note-list-item.is-current{background:var(--comment-fill);color:var(--comment-ink)}
+.note-list-item p,.note-list-item .note-meta{color:var(--comment-ink)}
+.note-list-item .note-meta{opacity:.8}
+.note-list-item.is-current{outline:2px solid var(--comment-stroke);outline-offset:-2px}
+.note-list-item.is-current .note-number{background:var(--comment-stroke);color:#232935}
+@media(prefers-reduced-motion:reduce){.canvas-comment .comment-body{transition:none}}
+
+/* Shared metadata scale and a tail that overlaps the bubble edge. */
+:root{--comment-meta-size:12px}
+.note-meta,.comment-timestamp{font-size:var(--comment-meta-size);line-height:1.5}
+.canvas-comment .comment-body:after{top:calc(100% - 1px);bottom:auto;left:22px;width:20px;height:12px;transform:none;rotate:none;clip-path:polygon(0 0,100% 0,22% 100%);border:0;border-radius:0;background:var(--comment-fill)}
+.comment-form{align-items:center}
+.comment-form textarea{margin:0;min-height:28px;height:28px;line-height:22px;padding:3px 0}
+.comment-form .comment-submit{display:flex;align-items:center;justify-content:center;align-self:center;flex:0 0 28px;width:28px;height:28px;margin:0;padding:0;line-height:1;background:#1a1b1f;color:#eef0f6;transform:none}
+.comment-form .comment-submit:hover{background:#30323a}
+.comment-form .comment-submit svg{display:block;flex:none;width:17px;height:17px;margin:0;stroke-width:1.8}
+@media(max-width:520px){:root{--comment-meta-size:11px}}
+@media(max-width:360px){:root{--comment-meta-size:10px}}
+
+/* Shared text size for toolbar labels, tool guidance, and all notices. */
+:root{--tool-message-size:12px}
+.tooltip,.floating-tool-hint,#toast{font-size:var(--tool-message-size)}
+.note-meta{padding-right:0}
+@media(max-width:760px){:root{--tool-message-size:11px}}
+@media(max-width:520px){:root{--tool-message-size:10px}}
+/* One visual treatment for hover labels, tool hints, and completion toasts. */
+:root{--tool-message-padding:8px 12px}
+.tooltip,.floating-tool-hint,#toast,.notes-panel #toast.in-comments{background:#e2eaf7;color:#202a3b;border:0;border-radius:18px;box-shadow:0 3px 12px #0002;backdrop-filter:none;font:600 var(--tool-message-size)/1 var(--font);letter-spacing:0;padding:var(--tool-message-padding);min-height:0;width:max-content;max-width:calc(100vw - 32px);text-align:center;white-space:normal;overflow-wrap:anywhere}
+.notes-panel #toast.in-comments{max-width:100%;margin:0 auto 11px;align-self:center}
+@media(max-width:520px){:root{--tool-message-padding:7px 10px}}

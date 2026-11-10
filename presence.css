@@ -1,0 +1,46 @@
+.canvas-presence{position:relative;display:flex;align-items:center;gap:0;isolation:isolate}
+.canvas-presence .visitor-corner{margin-right:3px}
+.presence-avatar,.presence-more{position:relative;width:40px;height:40px;flex:none;display:grid;place-items:center;border-radius:50%;border:1.5px solid var(--presence-stroke,#ad9141);background:var(--presence-fill,#f8edbb);color:#394258;box-shadow:inset 0 0 0 3px #ffffffa6;font:600 15px/1 var(--font);padding:0;margin-left:-7px;transition:transform .25s}
+.presence-avatar:hover,.presence-avatar:focus-visible{transform:translateY(-4px);z-index:3}
+.presence-avatar:after,.canvas-presence .studio-owner:after{content:'Find ' attr(data-presence-name) ' on this canvas';position:absolute;right:0;top:calc(100% + 13px);font:600 13px/1.3 var(--font);background:#fff;color:#303440;box-shadow:0 5px 20px #253f6720;padding:9px 13px;border-radius:18px;white-space:nowrap;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-3px);transition:opacity .2s,transform .2s}
+.presence-avatar:hover:after,.presence-avatar:focus-visible:after,.canvas-presence .studio-owner:hover:after{opacity:1;visibility:visible;transform:translateY(0)}
+.canvas-presence .studio-owner{position:relative}
+.presence-overflow{position:relative;display:none;margin-left:5px}
+.presence-more{margin:0}
+.presence-popover{display:none;position:absolute;right:0;top:calc(100% + 14px);width:238px;padding:16px;background:#25272e;color:#ededf3;border-radius:22px;box-shadow:0 12px 36px #0003;z-index:110}
+.presence-popover:before{content:'';position:absolute;top:-16px;left:0;right:0;height:18px}
+.presence-popover>strong{display:block;font:600 15px/1.4 var(--font);margin:0 0 10px}
+.presence-person{display:flex;align-items:center;gap:10px;width:100%;border:0;background:transparent;color:inherit;text-align:left;padding:6px;border-radius:12px;font:500 15px/1.4 var(--font)}
+.presence-person:hover,.presence-person:focus-visible{background:#ffffff12}
+.presence-person i{font-style:normal;display:grid;place-items:center;width:29px;height:29px;border-radius:50%;font-size:13px;font-weight:600}
+.presence-overflow:is(:hover,:focus-within,.is-open) .presence-popover{display:block}
+html[data-theme=light] .presence-popover{background:#fff;color:#303440;box-shadow:0 12px 36px #374c7925}
+html[data-theme=light] .presence-person:hover{background:#edf4ff}
+.roaming-cursors{position:fixed;inset:0;pointer-events:none;z-index:90;overflow:hidden}
+.roaming-cursor{position:absolute;left:0;top:0;will-change:transform;pointer-events:none;opacity:.85;transition:opacity .3s}
+.roaming-cursor svg{display:block;width:23px;height:27px;fill:var(--presence-fill);stroke:var(--presence-stroke);stroke-width:1.6;filter:drop-shadow(0 1px 1px #0001)}
+.roaming-cursor>span{display:block;position:absolute;left:14px;top:26px;background:var(--presence-fill);color:#394258;border-radius:18px;padding:5px 10px;white-space:nowrap;font:600 11px/1.15 var(--font);box-shadow:0 2px 9px #26354b0b}
+.roaming-cursor.is-found{opacity:1;filter:drop-shadow(0 0 8px var(--presence-stroke));z-index:2}
+body.page-changing .roaming-cursors{opacity:.35}
+@media(max-width:1100px){.canvas-presence>.presence-avatar,.canvas-presence .studio-owner{display:none}.presence-overflow{display:block}.canvas-presence .visitor-corner{margin:0}.presence-more{width:36px;height:36px;font-size:13px}}
+@media(max-width:760px){.canvas-presence .visitor-corner{flex:none}.presence-more{width:29px;height:29px;font-size:11px;box-shadow:inset 0 0 0 2px #ffffffa6}.canvas-presence{gap:1px}.presence-overflow{margin-left:3px}.roaming-cursor{opacity:.7}.roaming-cursor svg{width:18px;height:22px}.roaming-cursor>span{font-size:10px;top:21px;left:10px;padding:4px 7px}.presence-popover{right:-65px;max-width:calc(100vw - 32px)}}
+@media(prefers-reduced-motion:reduce){.presence-avatar,.roaming-cursor{transition:none}.roaming-cursor{will-change:auto}}
+
+@media(max-width:760px){
+ .roaming-cursors{display:none!important}
+ .canvas-presence{--presence-self-size:var(--mobile-control-size,40px)}
+ .canvas-presence .visitor-avatar,.canvas-presence .presence-more{width:var(--presence-self-size);min-width:var(--presence-self-size);height:var(--presence-self-size);min-height:var(--presence-self-size);flex-basis:var(--presence-self-size);box-sizing:border-box}
+ .canvas-presence .presence-more{font-size:14px;border-width:2px;box-shadow:inset 0 0 0 3px #ffffffa6}
+}
+@media(max-width:379px){.canvas-presence{--presence-self-size:32px}}
+@media(pointer:coarse){.roaming-cursors{display:none!important}}
+
+@media(max-width:359px){.page-navigation .avatar-mark{width:32px;min-width:32px}.page-navigation .page-menu-toggle{width:16px;min-width:16px}.page-navigation .mobile-page-name{white-space:nowrap;padding-inline:10px}}
+
+/* Companion cursors wait for the canvas makers to finish every section. */
+html.motion-pending .roaming-cursors,body:has(.assembly-layer) .roaming-cursors,body.page-changing .roaming-cursors,body[data-about-phase]:not([data-about-phase="idle"]) .roaming-cursors{visibility:hidden;opacity:0}
+.canvas-presence>.studio-owner{margin-right:-7px;flex:none}
+@media(min-width:1101px){.canvas-presence .visitor-corner{margin-left:-7px;margin-right:0}}
+
+/* Hold companions off-screen across the full gallery build, including section gaps. */
+body[data-gallery-phase]:not([data-gallery-phase="idle"]) .roaming-cursors{visibility:hidden;opacity:0}

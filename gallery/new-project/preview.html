@@ -1,0 +1,16 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>New project modal · Preview</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="tailwind.css?v=figma-canvas"><style>html,body{margin:0;background:transparent;min-height:100%;color-scheme:normal}html[data-thumbnail=true] body{width:1116px;height:725px;min-height:0}
+.preview-canvas{position:relative;isolation:isolate;overflow:hidden;--preview-base:#262626;--preview-line:#404040;background:var(--preview-base)}
+.preview-canvas[data-theme=light]{--preview-base:#f5f5f5;--preview-line:#d4d4d4}
+.preview-grid{position:absolute;inset:0 7.34767%;border-inline:.5px solid var(--preview-line);background:repeating-linear-gradient(32deg,transparent 0 6.5px,var(--preview-line) 6.5px 7px);pointer-events:none;z-index:-1}
+.preview-guide-columns{position:absolute;inset:0 19.95798%;border-inline:.5px dashed var(--preview-line)}
+.preview-guide-rows{position:absolute;inset:16% 0;border-block:.5px dashed var(--preview-line)}
+.preview-thumbnail{width:1116px;height:725px;display:grid;place-items:center}
+.preview-thumbnail{--thumbnail-zoom:1.35}
+.preview-thumbnail .preview-modal{transform:scale(var(--thumbnail-zoom))}
+.preview-thumbnail .preview-guide-columns{inset:0 calc((100% - 564px * var(--thumbnail-zoom)) / 2 - 4px)}
+.preview-thumbnail .preview-guide-rows{inset:calc((100% - 486px * var(--thumbnail-zoom)) / 2 - 4px) 0}
+.preview-modal{width:564px;overflow:hidden;border-radius:24px;background:var(--project-surface)}
+.preview-canvas dialog{box-shadow:none}
+.preview-canvas dialog::backdrop{background:transparent}
+.preview-canvas>button,.preview-canvas>p{position:relative;z-index:1}
+*{box-sizing:border-box}button,input,select{font-family:inherit}</style><script>if(new URLSearchParams(location.search).has('thumbnail'))document.documentElement.dataset.thumbnail='true'</script><script defer src="preview.js?v=figma-canvas"></script></head><body><div id="root"></div></body></html>

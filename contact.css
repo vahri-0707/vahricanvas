@@ -1,0 +1,69 @@
+.contact-board.contact-canvas{position:relative;top:auto;left:auto;transform:none;scale:1;width:calc(100% - 120px);max-width:1120px;margin:clamp(150px,20vh,220px) auto 170px;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:40px 24px;align-items:start;z-index:1}
+.contact-canvas .contact-hello,.contact-canvas .contact-note,.contact-canvas .contact-elsewhere{position:relative;border-radius:30px;padding:36px;min-width:0;box-shadow:none;transform:none;rotate:none}
+.contact-canvas .contact-hello{grid-column:1;grid-row:1;background:#d0ede1;color:#303440;padding-top:44px}
+.contact-canvas .contact-hello h1{font:700 36px/1.18 var(--font);letter-spacing:-.9px;color:#303440;margin:0 0 20px;position:relative;z-index:1}
+.contact-canvas .contact-hello>p{font:400 17px/1.6 var(--font);color:#46584f;max-width:355px;margin:0 0 24px}
+.contact-envelope{position:absolute;right:22px;top:-42px;width:112px;height:102px;transform:rotate(12deg);transform-origin:50% 80%;animation:contact-letter 5s ease-in-out infinite}
+.contact-envelope svg{width:100%;height:100%;stroke:#61677b;stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round}
+.contact-availability{font:500 15px/1.5 var(--font);color:#3d5c4f;display:flex;align-items:center;gap:9px;margin:0 0 24px}
+.contact-availability>.contact-role-marker{display:grid;place-items:center;width:26px;height:26px;flex:none;color:#7661a3;animation:contact-role-wiggle 5s ease-in-out infinite}
+.contact-role-marker svg{width:26px;height:26px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
+.contact-role-marker .role-spark{fill:#e4daf866;stroke-dasharray:1;animation:contact-role-ink 5s ease-in-out infinite}
+.contact-role-marker .role-twinkle{stroke:#ae698c;stroke-dasharray:1;animation:contact-role-ink 5s .35s ease-in-out infinite}
+@keyframes contact-role-ink{0%{stroke-dashoffset:1;opacity:.3}25%,80%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:-1;opacity:.3}}
+@keyframes contact-role-wiggle{0%,100%{transform:rotate(-9deg) scale(.94)}50%{transform:rotate(10deg) scale(1.08)}}
+@media(prefers-reduced-motion:reduce){.contact-role-marker,.contact-role-marker .role-spark,.contact-role-marker .role-twinkle{animation:none!important;stroke-dashoffset:0;opacity:1}}
+.contact-canvas .contact-links{margin:0;display:flex;gap:8px;flex-wrap:wrap}
+.contact-canvas .pill{font:600 var(--action-size)/1.2 var(--font);height:42px;min-height:42px;padding:0 13px;border-radius:24px;display:inline-flex;align-items:center;justify-content:center;gap:8px;rotate:none;color:#304363}
+.contact-canvas .pill:hover{transform:translateY(-3px);rotate:none}
+.contact-canvas .pill svg{width:18px;height:18px;flex:none}
+.contact-canvas .pill.white{background:#ffffffd9}
+.contact-canvas .contact-note{grid-column:2;grid-row:1 / span 2;background:#1b1c20;color:#ededf3;padding:36px}
+.contact-canvas h2{font:700 28px/1.18 var(--font);letter-spacing:-.8px;margin:0 0 12px}
+.contact-note>p{font:400 17px/1.6 var(--font);color:#bfc1ca;margin:0 0 28px}
+.contact-field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+#contact-note-form{display:flex;flex-direction:column;gap:22px}
+#contact-note-form label{font:600 15px/1.4 var(--font);color:#e0e2eb;display:block;min-width:0}
+#contact-note-form label>span{color:#c3a5d9}
+#contact-note-form input,#contact-note-form textarea{display:block;width:100%;margin-top:9px;border:1px solid #41444e;background:#25272e;color:#ededf3;border-radius:16px;padding:13px 15px;font:400 17px/1.5 var(--font);outline:none;transition:border-color .2s,box-shadow .2s;min-width:0}
+#contact-note-form input{height:52px}
+#contact-note-form textarea{min-height:164px;resize:vertical}
+#contact-note-form :is(input,textarea)::placeholder{color:#a1a5b3;opacity:1}
+#contact-note-form :is(input,textarea):focus{border-color:#a6c9ff;box-shadow:0 0 0 3px #a6c9ff24}
+.contact-form-footer{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.contact-form-footer>span{font:400 italic 15px/1.5 var(--font);color:#a7b1c3}
+#contact-note-form .contact-form-help,#contact-note-form .contact-form-status{font:400 15px/1.5 var(--font);color:#a9adb9;margin:-7px 0 0}
+#contact-note-form .contact-form-status{color:#c5dcff;background:#253348;padding:12px 14px;border-radius:14px;margin:0}
+#contact-note-form .contact-form-status[hidden]{display:none}
+.contact-canvas .contact-elsewhere{grid-column:1;grid-row:2;background:#e4daf8;color:#303440;padding:28px 36px}
+.contact-socials{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+html[data-theme=light] .contact-note{background:#fff;color:#303440;box-shadow:0 12px 40px #7185b00a}
+html[data-theme=light] .contact-note>p,html[data-theme=light] #contact-note-form .contact-form-help{color:#626575}
+html[data-theme=light] #contact-note-form label{color:#454a5b}
+html[data-theme=light] #contact-note-form :is(input,textarea){background:#f8f9fc;border-color:#d6dce8;color:#303440}
+html[data-theme=light] #contact-note-form :is(input,textarea)::placeholder{color:#808696}
+html[data-theme=light] .contact-form-footer>span{color:#697b96}
+html[data-theme=light] #contact-note-form .contact-form-status{background:#edf4ff;color:#304363}
+@keyframes contact-letter{0%,100%{transform:rotate(9deg) translateY(0)}50%{transform:rotate(14deg) translateY(-5px)}}
+@media(min-width:761px) and (max-width:1100px){.contact-board.contact-canvas{width:calc(100% - 104px);grid-template-columns:minmax(0,1fr) minmax(0,1.2fr)}.contact-canvas .contact-hello,.contact-canvas .contact-note,.contact-canvas .contact-elsewhere{padding:28px}.contact-field-row{grid-template-columns:1fr}.contact-canvas .contact-hello h1{font-size:32px}.contact-envelope{width:94px;right:10px}}
+@media(max-width:760px){.contact-board.contact-canvas{width:calc(100% - 40px);max-width:520px;margin:148px auto 150px;grid-template-columns:minmax(0,1fr);gap:38px}.contact-canvas .contact-hello,.contact-canvas .contact-note,.contact-canvas .contact-elsewhere{grid-column:1;grid-row:auto;padding:28px;border-radius:28px}.contact-canvas .contact-hello h1{font-size:30px}.contact-canvas h2{font-size:28px}.contact-canvas .contact-hello>p{font-size:17px;max-width:none}.contact-envelope{width:94px;height:88px;right:16px;top:-40px}.contact-field-row{grid-template-columns:1fr;gap:22px}.contact-canvas .pill{height:var(--mobile-control-size,40px);min-height:var(--mobile-control-size,40px);padding:0 15px}.contact-canvas .contact-email{padding:0 13px;gap:6px}.contact-note>p{margin-bottom:24px}.contact-form-footer{gap:14px}.contact-form-footer>span{display:none}}
+@media(prefers-reduced-motion:reduce){.contact-envelope{animation:none}#contact-note-form :is(input,textarea){transition:none}}
+
+/* Anchor the movable envelope to the card corner, with motion on its artwork. */
+.contact-envelope{right:-4px;top:-46px;rotate:12deg;transform:none;animation:none;touch-action:none;z-index:3}
+.contact-envelope svg{pointer-events:none;animation:contact-letter-art 5s ease-in-out infinite}
+@keyframes contact-letter-art{0%,100%{transform:rotate(-3deg) translateY(0)}50%{transform:rotate(2deg) translateY(-5px)}}
+@media(max-width:760px){
+ .contact-board.contact-canvas{row-gap:52px}
+ .contact-canvas>.movable{translate:none!important;touch-action:pan-y}
+ .contact-canvas>.movable>.object-label{top:-26px}
+ .contact-envelope{right:-5px;top:-40px}
+}
+@media(prefers-reduced-motion:reduce){.contact-envelope svg{animation:none}}
+
+.contact-availability{font-size:17px;font-weight:550}
+.contact-canvas .contact-note>h2,.contact-canvas .contact-elsewhere>h2{font-size:36px}
+
+@media(max-width:760px){.contact-canvas .contact-hello h1{font-size:36px}}
+
+.contact-canvas .contact-hello h1,.contact-canvas .contact-note>h2,.contact-canvas .contact-elsewhere>h2{font-size:28px}

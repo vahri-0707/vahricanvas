@@ -1,0 +1,48 @@
+/* Soft pastels on a charcoal canvas. Navigation shares the tray surface. */
+:root{--primary:#b9d5ff;--pink:#f6dce6;--blue:#c5dcff;--mint:#d0ede1;--lilac:#e4daf8;--yellow:#f8edbb;--pastel-ink:#293246;--pastel-copy:#45516a}
+.page-navigation,.editing-toolbar,.pill-tray{background:#1a1b1f}
+.page-navigation.menu-open .page-links{background:#1a1b1f!important}
+.page-links a{color:#bfc0cc}.page-links a:hover{background:#2c2d34;color:#f0f0f5}
+.page-links a[aria-current=page],.mobile-page-name{background:var(--blue);color:var(--pastel-ink)}
+.page-menu-toggle{color:#bcbfcb}
+.hello-card,.contact-card{background:var(--blue)}
+.hello-content h1,.contact-card h1{color:var(--pastel-ink)}
+.hello-content p,.contact-card>p{color:var(--pastel-copy)}
+.hello-period,.contact-card h1>span{color:#5b77b8}.hello-spark,.portrait-star{color:#b9d5ff}
+.pink{background:var(--pink);color:#553d4b}.blue{background:var(--blue);color:#304363}.mint{background:var(--mint);color:#355448}.lilac{background:var(--lilac);color:#514366}.yellow{background:var(--yellow);color:#5a5030}.white{background:#f1f0fa;color:#38425b}
+.tool-button,.tool-button:not([data-tool]),.ink-color-button{color:#bcbfcd}
+.tool-button:hover,.ink-color-button:hover{background:#30313a;color:#e7e9f2}
+.tool-button.active{background:var(--blue);color:#314768}
+.notes-button{background:var(--yellow);color:#51482d}.notes-button:hover,.notes-button[aria-expanded=true]{background:#fff3be;color:#51482d}
+.notes-button>span{background:#0000000c;color:inherit}
+.music-toggle{background:var(--blue);color:#304363}.music-toggle:hover,.music-toggle[aria-expanded=true]{background:#d8e7ff;color:#304363}
+.equalizer i{background:#6c8abb}
+.notes-heading h2>span{background:var(--yellow);color:#51482d}
+.note-list-item{background:var(--pink);color:#513e4e}.note-list-item:nth-child(2n){background:var(--lilac)}.note-list-item:nth-child(3n){background:var(--mint)}
+.note-list-item:hover,.note-list-item.is-current{background:var(--blue)}
+.note-list-item p{color:#3f4052}.note-meta{color:#666475}
+.note-number{background:#ffffff70;color:#515062}
+.note-like{background:#ffffff70;color:#6c5d79}.note-like:hover,.note-like[aria-pressed=true]{background:#fff9;color:#8d5ca5}
+#composer-avatar{background:var(--mint);color:#355448}
+.notes-composer>button{background:var(--blue);color:#304363}.notes-composer>button:hover{background:#d8e7ff}
+.canvas-comment .comment-body{background:var(--lilac)}.canvas-comment .comment-body:after{background:var(--lilac)}
+.canvas-comment .comment-body p{color:#4b3f61}.comment-author{color:#746585}
+.comment-pin{background:var(--lilac);color:#53416e}.comment-pin:hover{background:#eee6ff}
+.comment-close{background:#d5c7ec;color:#53416e}
+.comment-form textarea{color:#4b3f61}.comment-form textarea::placeholder{color:#837292}
+.comment-form .comment-submit{background:#c0b0df;color:#45345b}
+.about-card{background:var(--blue)}.belief-card{background:var(--lilac)}.experience-card{background:var(--mint)}
+.about-card h2,.experience-card strong,.belief-card strong{color:var(--pastel-ink)}
+.about-card p,.belief-card p,.belief-card i,.belief-card>.handwriting,.experience-card p>span{color:var(--pastel-copy)}
+.belief-flower{color:#a18abb}.experience-dot{background:#729b8a}.experience-dot.purple{background:#9a88b6}
+.availability-note{background:var(--mint);color:#355448}.availability-note>.handwriting{color:#5c7d70}.availability-dot{background:#78a58d}
+.contact-flower{color:#8ca6d1}
+.project-tags span{background:var(--lilac);color:#514366}
+.detail-note{background:var(--lilac);color:#514366}
+.more-experiments{background:var(--yellow)}.more-experiments>.handwriting,.more-experiments>div,.more-experiments i{color:#615637}
+.floating-tool-hint,#toast{background:#e9e3f5;color:#514366}
+.notes-panel #toast.in-comments{background:var(--mint);color:#355448}
+.color-choices button>span{box-shadow:0 0 0 4px #1c1d21,0 0 0 5px transparent}
+.color-choices button[aria-pressed=true]>span{box-shadow:0 0 0 4px #1c1d21,0 0 0 5.5px var(--swatch)}
+.visitor-avatar{background:var(--mint);color:#355448;border-color:#9fc9b9;box-shadow:inset 0 0 0 3px #1a1b1f}
+.studio-owner{background:var(--blue);color:#304363;border-color:#96b4dd;box-shadow:inset 0 0 0 3px #1a1b1f}

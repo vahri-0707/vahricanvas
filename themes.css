@@ -1,0 +1,58 @@
+.header-actions{display:flex;align-items:center;gap:14px;pointer-events:auto;flex-shrink:0}
+.theme-toggle{display:flex;align-items:center;justify-content:center;flex:none;width:42px;height:42px;padding:0;border:0;border-radius:50%;background:#1a1b1f;color:#d9dfef;cursor:pointer;transition:background .18s,transform .18s}
+.theme-toggle svg{display:block;width:20px;height:20px;stroke-width:1.7}
+.theme-toggle:hover{background:#30313a;transform:translateY(-2px)}
+.theme-toggle .theme-moon{display:none}
+html[data-theme=light]{color-scheme:light;--ink:#303440;--muted:#767785;--selection:#678ac5}
+html[data-theme=light] body{background:#fbfaff;color:#303440}
+html[data-theme=light] body:before{background:radial-gradient(circle,#dad6e2 1.4px,transparent 1.9px);background-size:24px 24px;background-position:11px 11px}
+html[data-theme=light] .theme-toggle{background:#fff;color:#4b5062;box-shadow:0 3px 15px #5a527210}
+html[data-theme=light] .theme-toggle:hover{background:#e9e5f1}
+html[data-theme=light] .theme-toggle .theme-moon{display:block}
+html[data-theme=light] .theme-toggle .theme-sun{display:none}
+html[data-theme=light] :is(.page-navigation,.editing-toolbar,.pill-tray){background:#ffffffed;box-shadow:0 5px 24px #6156770c}
+html[data-theme=light] .page-navigation.menu-open .page-links{background:#fffffffa!important;box-shadow:0 10px 30px #61567718!important}
+html[data-theme=light] .page-links a{color:#606371}
+html[data-theme=light] .page-links a:hover{background:#eeeaf5;color:#303440}
+html[data-theme=light] .page-links a[aria-current=page]{background:var(--blue);color:var(--pastel-ink)}
+html[data-theme=light] .page-menu-toggle{color:#686d7e}
+html[data-theme=light] .avatar-mark>span{color:#3e4e6b}
+html[data-theme=light] .avatar-mark>i{color:#789cd3}
+html[data-theme=light] :is(.visitor-avatar,.studio-owner){box-shadow:inset 0 0 0 3px #fbfaff}
+html[data-theme=light] :is(.tool-button,.tool-button:not([data-tool]),.ink-color-button){color:#686d7e}
+html[data-theme=light] :is(.tool-button:hover,.ink-color-button:hover){background:#eeebf5;color:#3c4254}
+html[data-theme=light] .tool-button.active{background:var(--blue);color:#314768}
+html[data-theme=light] .toolbar-divider{background:#dfdce6}
+html[data-theme=light] :is(.object-label,.home-board .object-label){color:#82808f}
+html[data-theme=light] :is(.hello-card,.contact-card){box-shadow:0 12px 40px #7185b00c}
+html[data-theme=light] .portrait-art{filter:none}
+html[data-theme=light] .portrait-crop{box-shadow:0 8px 25px #8d7da61a}
+html[data-theme=light] :is(.page-title h1,.project-info h3,.project-detail h2,.guide h2){color:#303440}
+html[data-theme=light] :is(.page-title>p,.project-info p,.project-type,.study-note,.project-detail>p){color:#737586}
+html[data-theme=light] :is(.page-title .eyebrow,.project-detail .eyebrow){color:#7c84a0}
+html[data-theme=light] :is(.tool-popover,.notes-panel,.music-panel,dialog){background:#fff;box-shadow:0 12px 40px #62567520}
+html[data-theme=light] .tool-popover:after,html[data-theme=light] .notes-panel:after{background:#fff}
+html[data-theme=light] .notes-heading h2{color:#434452}
+html[data-theme=light] :is(.notes-heading button,.dialog-close){background:#eeeaf5;color:#696077}
+html[data-theme=light] .notes-heading button:hover{background:#e3dcec}
+html[data-theme=light] .notes-composer{background:#f0eef5}
+html[data-theme=light] .notes-composer:focus-within{background:#eae7f3}
+html[data-theme=light] .notes-composer input{color:#414655}
+html[data-theme=light] .notes-composer input::placeholder{color:#84808f}
+html[data-theme=light] .empty-notes{background:#f4f1f8}
+html[data-theme=light] .empty-notes strong{color:#5b5669}
+html[data-theme=light] .empty-notes p{color:#85808f}
+html[data-theme=light] .notes-privacy{color:#8b8597}
+html[data-theme=light] .sticker-popover button:hover{background:#f0edf8}
+html[data-theme=light] .color-choices button:hover{background:#f0edf8!important}
+html[data-theme=light] .color-choices button>span{box-shadow:0 0 0 4px #fff,0 0 0 5px transparent}
+html[data-theme=light] .color-choices button[aria-pressed=true]>span{box-shadow:0 0 0 4px #fff,0 0 0 5.5px var(--swatch)}
+html[data-theme=light] .music-caption{color:#696777}
+html[data-theme=light] .music-caption a{color:#597fb8}
+html[data-theme=light] .canvas-frame{background:color-mix(in srgb,var(--node-color) 8%,#fff 85%)}
+html[data-theme=light] :is(.guide p,.guide li,.guide small){color:#747082}
+html[data-theme=light] .guide strong{color:#4e536c}
+html[data-theme=light] dialog::backdrop{background:#77708745}
+html[data-theme=light] .skip-link{background:#fff;color:#41577c}
+@media(max-width:520px){.header-actions{gap:9px}.theme-toggle{width:34px;height:34px}.theme-toggle svg{width:18px;height:18px}.studio-header{gap:10px}}
+@media(prefers-reduced-motion:reduce){.theme-toggle{transition:none}.theme-toggle:hover{transform:none}}

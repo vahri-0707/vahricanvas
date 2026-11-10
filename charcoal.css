@@ -1,0 +1,62 @@
+/* Neutral charcoal canvas; blue anchors the primary interface. */
+:root{--ink:#f0f0f2;--muted:#97999f;--primary:#709cff;--selection:#709cff;--pink:#3c2c37;--lilac:#343047;--mint:#203c35;--yellow:#403b28;--blue:#284c90}
+body{background:#0d0e10;color:var(--ink)}
+body:before{background:radial-gradient(circle,#303136 1.4px,transparent 1.9px);background-size:24px 24px;background-position:11px 11px}
+/* Surface changes and shadows define sections instead of outlines. */
+.page-navigation,.editing-toolbar,.hello-card,.pill-tray,.about-card,.belief-card,.experience-card,.contact-card,.availability-note,.more-experiments,.tool-popover,.notes-panel,.note-list-item,.note-entry-main,.notes-composer,.music-toggle,.music-panel,.comment-body,.comment-close,.comment-pin,.note-number,.empty-notes,dialog,.dialog-close,.portrait-crop,.color-choices button,#composer-avatar,.floating-tool-hint,#toast{border:0;box-shadow:none}
+.page-navigation{background:#192e57;box-shadow:0 8px 26px #0003}
+.page-menu-toggle{color:#b1c7ef}
+.page-links a{color:#bdccee}
+.page-links a:hover{background:#27477f;color:#fff}
+.page-links a[aria-current=page],.mobile-page-name{background:#376bce;color:#fff;box-shadow:none}
+.page-navigation.menu-open .page-links{background:#192e57!important;border:0!important;box-shadow:0 12px 35px #0005!important}
+.avatar-mark>span{color:#e1eaff}.avatar-mark>i{color:#9dbdff}
+.hello-card{background:#192f57;box-shadow:0 18px 45px #0002}
+.hello-content h1{color:#f4f7ff}.hello-content p{color:#c2cfea}.hello-period{color:#8fb4ff}
+.object-label,.home-board .object-label{color:#92949d}
+.portrait-crop{background:#282a30;box-shadow:0 10px 25px #0003}
+.portrait-art{filter:saturate(.8) brightness(.94)}
+.pill-tray{background:#1a1b1f}
+.pink{background:#3b2934;color:#efd0e2}.blue{background:#2c5196;color:#e2edff}.mint{background:#203c35;color:#bce5d5}.lilac{background:#353047;color:#dcd0f3}.yellow{background:#423b25;color:#f2e3af}.white{background:#303136;color:#e3e3e8}
+.pill svg{stroke:currentColor}
+.editing-toolbar{background:#192e57;box-shadow:0 10px 32px #0005}
+.tool-button,.tool-button:not([data-tool]),.ink-color-button{color:#b6c9eb}
+.tool-button:hover,.ink-color-button:hover{background:#294a82;color:#fff}
+.tool-button.active{background:#376bce;color:#fff;box-shadow:none}
+.toolbar-divider{background:#ffffff20}
+.notes-button{background:#719fff;color:#101f3c;box-shadow:none}.notes-button:hover,.notes-button[aria-expanded=true]{background:#97b9ff;color:#101f3c}
+.music-toggle{background:#264e9b;color:#edf3ff;box-shadow:0 6px 22px #0003}
+.music-toggle:hover,.music-toggle[aria-expanded=true]{background:#3668c5;box-shadow:none}
+.equalizer i{background:#b8ceff}
+.tool-popover,.notes-panel,.music-panel,dialog{background:#1c1d21;box-shadow:0 14px 44px #0006}
+.tool-popover:after,.notes-panel:after{background:#1c1d21;border:0}
+.note-list-item,.note-list-item:nth-child(2n){background:#292a30;color:#dddfe6}
+.note-list-item:nth-child(3n+2){background:#302b3b}.note-list-item:nth-child(3n+3){background:#233732}
+.note-list-item:hover{background:#34363e;border:0}.note-list-item.is-current{background:#2b3d60;border:0}
+.note-list-item p,.notes-heading h2{color:#e5e5eb}.note-meta{color:#adaeb8}
+.note-number{background:#42444e;color:#e4e5ed}
+.note-like{background:#ffffff0d;color:#c5c5d0}.note-like:hover,.note-like[aria-pressed=true]{background:#565078;color:#e1d8ff}
+.notes-heading button,.comment-close,.dialog-close{background:#34353d;color:#e0e0e8}
+.notes-heading button:hover{background:#454752}
+.notes-composer{background:#2b2d34;box-shadow:none}.notes-composer:focus-within{border:0;box-shadow:none;background:#333640}
+#composer-avatar{background:#394e78;color:#e2ebff;border:0;box-shadow:none}
+.notes-composer input{color:#f0f0f5}.notes-composer input::placeholder{color:#b1b2bd}
+.notes-composer>button{background:#5083e8}.notes-composer>button:hover{background:#75a0f1}
+.canvas-comment .comment-body{background:#343047;box-shadow:0 7px 22px #0003}
+.canvas-comment .comment-body:after{background:#343047;border:0}
+.canvas-comment .comment-body p{color:#e3daf6}.comment-author{color:#b9a9d0}
+.comment-pin{background:#66538f;color:#f3eaff}.comment-pin:hover{background:#7a64a8}
+.empty-notes{background:#27282e}.empty-notes strong{color:#e0e0e8}.empty-notes p{color:#a4a4b0}
+.about-card,.belief-card,.experience-card,.more-experiments{background:#1b1c20}
+.about-card h2,.experience-card strong,.belief-card strong{color:#e4e4eb}
+.about-card p,.belief-card p,.page-title>p,.project-info p,.project-type,.study-note{color:#a4a5af}
+.page-title h1,.project-info h3{color:#efeff5}
+.belief-card{background:#292432}.experience-card{background:#1d2c27}
+.contact-card{background:#192f57}.availability-note{background:#24372f;color:#c9e3d5}
+.project-tags span{background:#27282f;color:#bfc1cd}
+.detail-note{background:#292b32;color:#b9bbc8}.project-detail>p{color:#b4b5c0}
+.floating-tool-hint,#toast{background:#292b32;color:#e0e1e9;box-shadow:0 5px 18px #0003}
+.notes-panel #toast.in-comments{background:#30333b;border:0}
+.music-caption{color:#b4b5bf}.music-caption a{color:#97b6ff}
+/* Keyboard focus and canvas editing guides remain functional, not decorative. */
+button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2px solid #8ab1ff;outline-offset:4px}

@@ -1,0 +1,75 @@
+/* Keep the toolbar inset even, independently of the control spacing. */
+.editing-toolbar{--toolbar-inset:8px;padding:var(--toolbar-inset);z-index:180}
+.tool-button,.ink-color-button,.pill{transition:background .18s ease,color .18s ease,transform .18s ease,box-shadow .18s ease}
+.tool-button svg,.tool-button.active svg,.tool-button:hover svg,.tool-button:focus-visible svg{transform:none;rotate:none;transition:none}
+.tool-button:hover,.ink-color-button:hover{transform:translateY(-2px)}
+.sticker-popover button:hover{transform:translateY(-2px);rotate:none}
+.tool-popover{z-index:190}
+.notes-panel{z-index:210;width:370px;padding:17px 13px 12px;border:1.5px solid #48658d;border-radius:27px;max-height:min(590px,calc(100dvh - 160px));box-shadow:0 16px 50px #00000045}
+.notes-panel:after{border-width:1.5px;z-index:-1}
+.notes-heading{padding:0 6px 15px;min-height:40px}
+.notes-heading h2{font-size:18px;font-weight:600;gap:8px;letter-spacing:-.25px}
+.notes-heading h2>span{font-size:12px;min-width:25px;height:25px;background:#5e93e8;color:#11223d;font-weight:550}
+.notes-heading button{width:30px;height:30px;background:#304665;color:#c6daf6;transition:background .18s,transform .18s}
+.notes-heading button:hover{background:#42618d;transform:translateY(-2px)}
+.notes-heading button svg{width:13px;height:13px;stroke-width:2}
+#notes-list{padding:0 1px 1px;scrollbar-color:#6482ac transparent}
+.note-list-item{border-radius:19px;margin:0 0 10px;background:#24354e;border-color:transparent}
+.note-list-item:nth-child(2n){background:#283b59}
+.note-list-item:hover{background:#2c4162;border-color:#45648f}
+.note-list-item.is-current{border-color:#709bd8;background:#2c4469}
+.note-entry-main{min-height:82px;padding:13px 15px 15px}
+.note-meta{font-size:10px;font-weight:500;gap:7px;margin-bottom:8px;padding-right:29px;color:#98acc8;line-height:1.5}
+.note-number{width:20px;min-width:20px;height:20px;font-size:10px;color:#c3d8f7;background:#3b5479}
+.note-list-item p{font-size:15px;font-weight:450;line-height:1.55;color:#d8e6fb}
+.note-like{right:12px;top:12px;width:31px;height:22px;border-radius:14px;background:#334967;color:#c4d6f0;transition:background .18s,transform .18s}
+.note-like svg{height:13px;width:13px;fill:currentColor;stroke:none}
+.note-like:hover{transform:translateY(-2px);background:#42638f;color:#e1eeff}
+.note-like[aria-pressed=true]{background:#5688d4;color:#ecf5ff}
+.notes-composer{padding:6px;border:2px solid #456c9f;gap:9px;margin-top:2px;border-radius:28px;background:#1d304b;box-shadow:0 0 0 2px #121f322b}
+.notes-composer>span{width:33px;height:33px;border-radius:50%;font-size:11px;font-weight:600;background:#2f5689;border:2px solid #6e98d1;color:#d2e3fc}
+.notes-composer input{font-size:14px;line-height:1.5;color:#e0ebfb;padding:7px 0}
+.notes-composer input::placeholder{color:#a6bbda}
+.notes-composer>button{height:37px;width:37px;background:#5f94e7;border:0;color:#edf5ff;transition:transform .18s,background .18s}
+.notes-composer>button:hover{transform:translateY(-2px);background:#7babf4}
+.notes-composer>button svg{width:18px;height:18px;stroke-width:1.7;fill:none}
+/* A single notice style for tool guidance and completion feedback. */
+.floating-tool-hint,#toast{position:fixed;left:50%;top:auto;bottom:var(--notice-bottom,97px);right:auto;z-index:240;max-width:calc(100vw - 32px);width:max-content;min-height:40px;padding:10px 17px;border:1px solid #3b5275;border-radius:24px;background:#22334beb;color:#d5e4fb;box-shadow:0 5px 18px #00000025;backdrop-filter:blur(16px);font:500 var(--action-size)/1.4 var(--font);text-align:center;letter-spacing:0}
+.floating-tool-hint{transform:translateX(-50%)}
+#toast{opacity:0;pointer-events:none;transform:translate(-50%,6px);transition:opacity .18s ease,transform .18s ease}
+#toast.visible{opacity:1;transform:translate(-50%,0)}
+body.toast-active #tool-hint{visibility:hidden}
+@media(max-width:760px){.editing-toolbar{--toolbar-inset:7px}.notes-panel{width:360px}.notes-heading h2{font-size:17px}.notes-composer input{font-size:13px}}
+@media(max-width:520px){.editing-toolbar{--toolbar-inset:6px}.notes-panel{padding:15px 11px 11px;border-radius:25px;max-height:calc(100dvh - 160px)}.notes-heading{padding:0 5px 13px}.notes-heading h2{font-size:16px}.notes-heading h2>span{font-size:11px;min-width:23px;height:23px}.note-entry-main{padding:12px 14px 14px;min-height:79px}.note-list-item p{font-size:14px}.note-meta{font-size:9px;gap:6px}.note-number{font-size:9px;height:19px;min-width:19px;width:19px}.notes-composer{gap:7px}.notes-composer input{font-size:12px}.notes-composer>button{width:35px;height:35px}.notes-composer>span{width:31px;height:31px}.floating-tool-hint,#toast{padding:9px 14px;min-height:36px}}
+@media(max-width:360px){.editing-toolbar{--toolbar-inset:5px}.notes-composer input{font-size:11px}.notes-composer{gap:6px}.note-meta{font-size:8px}}
+@media(prefers-reduced-motion:reduce){.tool-button,.ink-color-button,.note-like,.notes-composer>button,#toast{transition:none}.tool-button:hover,.ink-color-button:hover,.sticker-popover button:hover,.note-like:hover,.notes-composer>button:hover{transform:none}}
+
+body:not([data-tool="move"]) .tool-button.active>.tooltip,body.toast-active .tooltip{visibility:hidden}
+
+.notes-panel #toast.in-comments{position:relative;inset:auto;display:block;width:calc(100% - 4px);max-width:none;flex-shrink:0;margin:0 2px 11px;transform:none;border-radius:18px;box-shadow:none;min-height:0;text-align:left;padding:10px 13px}
+.notes-panel #toast.in-comments:not(.visible){display:none}
+
+/* Keep compact comment controls centered, including while hovered. */
+#close-notes,.notes-composer>button{display:flex;align-items:center;justify-content:center;padding:0;line-height:1;flex-shrink:0;align-self:center;transform:none;translate:none;rotate:none}
+#close-notes:hover,.notes-composer>button:hover,#close-notes:focus-visible,.notes-composer>button:focus-visible{transform:none;translate:none;rotate:none}
+#close-notes>svg,.notes-composer>button>svg{display:block;flex:0 0 auto;margin:0;padding:0;transform:none;translate:none;rotate:none}
+#close-notes>svg{width:14px;height:14px}
+.notes-composer>button>svg{width:18px;height:18px}
+.note-meta{font-size:12px;line-height:1.5;gap:8px;align-items:center}
+.note-number{display:flex;align-items:center;justify-content:center;width:23px;min-width:23px;height:24px;padding:0;border:1.5px solid #769aca;border-radius:50% 50% 50% 20%;background:#34577e;color:#d7e6fc;font:550 11px/1 var(--font)}
+#composer-avatar{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:33px;height:35px;padding:0;border:2px solid #759ed5;border-radius:50% 50% 50% 20%;font:600 12px/1 var(--font);background:#315582;color:#d6e7fd;transform:none}
+.tooltip{bottom:calc(100% + 17px)}
+@media(max-width:520px){.note-meta{font-size:11px;gap:7px}.note-number{width:22px;min-width:22px;height:23px;font-size:10px}#composer-avatar{width:31px;height:33px;font-size:11px}.tooltip{bottom:calc(100% + 15px)}}
+@media(max-width:360px){.note-meta{font-size:10px;gap:6px}.note-number{width:21px;min-width:21px;height:22px}}
+
+/* Compact cards and independently expanded canvas bubbles. */
+.note-entry-main{padding:9px 11px 10px;min-height:0}
+.note-meta{margin-bottom:5px}
+.note-like{top:9px;right:9px}
+#composer-avatar{width:33px;height:33px;border-radius:50%}
+#notes-composer>button>svg{translate:-.7px .7px}
+.canvas-comment .comment-body{width:225px;min-width:170px;padding:16px 18px;border-radius:20px;background:#263d60}
+.canvas-comment .comment-body:after{background:#263d60}
+.canvas-comment .comment-body p{text-align:center;line-height:1.5;overflow-wrap:anywhere}
+.canvas-comment .comment-author{display:block;text-align:center}
+@media(max-width:520px){.note-entry-main{padding:8px 10px 9px;min-height:0}#composer-avatar{width:31px;height:31px;border-radius:50%}.canvas-comment .comment-body{width:195px;padding:13px 15px}}
