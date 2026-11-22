@@ -141,17 +141,73 @@
   dialog.addEventListener('close', () => trigger?.focus({preventScroll: true}));
   addEventListener('hashchange', () => dialog.close());
   document.querySelectorAll('[data-jump]').forEach(button=>button.addEventListener('click',()=>{const target=document.getElementById(button.dataset.jump);const page=target.closest('.page-view');page.scrollTo({top:target.getBoundingClientRect().top-page.getBoundingClientRect().top+page.scrollTop-115,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}));
-  const cover = document.querySelector('.kantong-brand-cover');
-  if (cover && !reducedMotion.matches) {
-    const motionButton = cover.querySelector('.kantong-cover-motion');
-    const observer = new IntersectionObserver(([entry]) => {
-      cover.classList.toggle('is-in-view', entry.isIntersecting);
-    }, { threshold: 0.3 });
-    observer.observe(cover);
-    motionButton.hidden = false;
-    motionButton.addEventListener('click', () => {
-      const paused = cover.classList.toggle('is-paused');
-      motionButton.setAttribute('aria-pressed', String(paused));
+  // Illustrations loop while visible and pause offscreen or in hidden tabs.
+  const storyboard = document.querySelector('.kantong-storyboard');
+  if (storyboard) {
+    const cards = [...storyboard.querySelectorAll('.kantong-storyboard-card')];
+    const visibleCards = new Set();
+    function syncStoryMotion() {
+      cards.forEach(card => {
+        const visible = visibleCards.has(card) && !document.hidden && !projectPage.hidden;
+        if (visible) card.classList.add('has-story-motion');
+        card.classList.toggle('is-story-visible', visible);
+      });
+    }
+    const storyObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.35) visibleCards.add(entry.target);
+        else visibleCards.delete(entry.target);
+      });
+      syncStoryMotion();
+    }, { root: projectPage, threshold: 0.35 });
+    cards.forEach(card => storyObserver.observe(card));
+    document.addEventListener('visibilitychange', syncStoryMotion);
+    reducedMotion.addEventListener('change', syncStoryMotion);
+    new MutationObserver(syncStoryMotion).observe(projectPage, { attributes: true, attributeFilter: ['hidden'] });
+    syncStoryMotion();
+  }
+  // Both placements clone the same artwork and retain their shared playback position.
+  const coverTemplate = document.getElementById('kantong-cover-scene');
+  const covers = [...document.querySelectorAll('[data-kantong-cover]')];
+  if (coverTemplate && covers.length) {
+    const visibleCovers = new Set();
+    let coverTime = 0;
+    let activeCover = null;
+    let runningSince = null;
+    covers.forEach(cover => {
+      cover.querySelector('.kantong-cover-art').replaceChildren(coverTemplate.content.cloneNode(true));
     });
+    function coverAnimations(cover) {
+      return cover?.getAnimations({ subtree: true }).filter(animation => animation.animationName?.startsWith('kc-')) || [];
+    }
+    function syncCovers() {
+      const now = performance.now();
+      if (runningSince !== null) coverTime += now - runningSince;
+      activeCover = covers.find(cover => visibleCovers.has(cover) && !cover.closest('.page-view').hidden) || null;
+      coverAnimations(activeCover).forEach(animation => { animation.currentTime = coverTime; });
+      runningSince = activeCover && !document.hidden && !reducedMotion.matches ? now : null;
+      covers.forEach(cover => {
+        cover.classList.toggle('is-in-view', cover === activeCover && !document.hidden);
+      });
+    }
+    const coverObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.2) visibleCovers.add(entry.target);
+        else visibleCovers.delete(entry.target);
+      });
+      syncCovers();
+    }, { threshold: [0, 0.2] });
+    covers.forEach(cover => {
+      coverObserver.observe(cover);
+      new MutationObserver(syncCovers).observe(cover.closest('.page-view'), { attributes: true, attributeFilter: ['hidden'] });
+    });
+    document.addEventListener('visibilitychange', syncCovers);
+    reducedMotion.addEventListener('change', () => {
+      coverTime = 0;
+      runningSince = null;
+      activeCover = null;
+      syncCovers();
+    });
+    syncCovers();
   }
 })();

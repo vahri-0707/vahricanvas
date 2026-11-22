@@ -1,5 +1,5 @@
-/* Soft pastels on a charcoal canvas. Navigation shares the tray surface. */
-:root{--primary:#b9d5ff;--pink:#f6dce6;--blue:#c5dcff;--mint:#d0ede1;--lilac:#e4daf8;--yellow:#f8edbb;--pastel-ink:#293246;--pastel-copy:#45516a}
+/* Shared vivid palette for every portfolio page and canvas control. */
+:root{--primary:#73caff;--pink:#ff8a72;--blue:#73caff;--mint:#65dda7;--lilac:#b59aff;--yellow:#ffd23f;--pastel-ink:#182844;--pastel-copy:#263a58}
 .page-navigation,.editing-toolbar,.pill-tray{background:#1a1b1f}
 .page-navigation.menu-open .page-links{background:#1a1b1f!important}
 .page-links a{color:#bfc0cc}.page-links a:hover{background:#2c2d34;color:#f0f0f5}
@@ -8,7 +8,7 @@
 .hello-card,.contact-card{background:var(--blue)}
 .hello-content h1,.contact-card h1{color:var(--pastel-ink)}
 .hello-content p,.contact-card>p{color:var(--pastel-copy)}
-.hello-period,.contact-card h1>span{color:#5b77b8}.hello-spark,.portrait-star{color:#b9d5ff}
+.hello-period,.contact-card h1>span{color:#5b77b8}.hello-spark,.portrait-star{color:#73caff}
 .pink{background:var(--pink);color:#553d4b}.blue{background:var(--blue);color:#304363}.mint{background:var(--mint);color:#355448}.lilac{background:var(--lilac);color:#514366}.yellow{background:var(--yellow);color:#5a5030}.white{background:#f1f0fa;color:#38425b}
 .tool-button,.tool-button:not([data-tool]),.ink-color-button{color:#bcbfcd}
 .tool-button:hover,.ink-color-button:hover{background:#30313a;color:#e7e9f2}

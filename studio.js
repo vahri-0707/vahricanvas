@@ -115,9 +115,9 @@ function styleNode(el, node) {
   el.style.left = `${x}px`; el.style.top = `${y}px`; el.style.color = cleanColor(node.color); el.style.setProperty('--node-color', cleanColor(node.color));
 }
 const commentPalette = [
-  ['#d0ede1', '#80b69d', '#355448'], ['#e4daf8', '#aa92d0', '#514366'],
-  ['#c5dcff', '#82a9de', '#304363'], ['#f6dce6', '#d49db6', '#553d4b'],
-  ['#f8edbb', '#c5b269', '#5a5030']
+  ['#65dda7', '#80b69d', '#355448'], ['#b59aff', '#aa92d0', '#514366'],
+  ['#73caff', '#82a9de', '#304363'], ['#ff8a72', '#d49db6', '#553d4b'],
+  ['#ffd23f', '#c5b269', '#5a5030']
 ];
 function colorComment(element, node) {
   const palette = commentPalette[Math.max(0, (node.number || 1) - 1) % commentPalette.length];
@@ -337,7 +337,7 @@ $('#notes-composer').addEventListener('submit', e => {
 function undo() { if (!histories[page].length) { toast('A fresh canvas. Nothing to undo yet.'); return; } state[page] = histories[page].pop(); clearSelection(); save(); renderPage(); toast('One step back. Keep playing.'); }
 
 $('#reset-action').addEventListener('click', () => { remember(); state[page] = blankState()[page]; clearSelection(); setTool('move'); save(); renderPage(); toast('A fresh canvas. Undo brings your marks back.'); });
-const frameColors=['#c5dcff','#e4daf8','#d0ede1','#f6dce6','#f8edbb'];
+const frameColors=['#73caff','#b59aff','#65dda7','#ff8a72','#ffd23f'];
 function nextFrameColor(){const previous=data().nodes.filter(node=>node.kind==='frame').at(-1)?.color;const index=frameColors.indexOf(previous);return frameColors[(index+1)%frameColors.length];}
 function constructionParts(el){
   el.insertAdjacentHTML('beforeend','<span class="construction-guide" aria-hidden="true"><svg><rect width="100%" height="100%" rx="32"/></svg><i></i><i></i><i></i><i></i></span><span class="construction-size" aria-hidden="true"></span>');

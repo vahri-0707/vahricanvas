@@ -17,22 +17,22 @@
   function emergePage(page){
     if(reduced.matches)return;
     const elements=[...page.querySelectorAll('.movable,.page-title,.project-card,.more-experiments,[data-doc-reveal]')].filter(el=>!el.closest('[hidden]')&&!el.parentElement.closest('.movable,.project-card,.more-experiments'));
-    const ready=new Set();let active=false,disposed=false,nextTimer=0;
-    const pump=()=>{
-      if(disposed||active)return;
-      const el=[...ready].sort((a,b)=>{const x=a.getBoundingClientRect(),y=b.getBoundingClientRect();return Math.abs(x.top-y.top)>25?x.top-y.top:x.left-y.left;})[0];
-      if(!el)return;
-      ready.delete(el);active=true;returnRevealObserver.unobserve(el);
-      el.classList.remove('return-reveal-pending');el.classList.add('return-reveal-active');
-      const base=getComputedStyle(el).transform,transform=base==='none'?'':base+' ';
-      const animation=el.animate([{opacity:0,transform:transform+'translateY(22px) scale(.78)'},{opacity:1,transform:transform+'translateY(0) scale(1)'}],{duration:620,easing:'cubic-bezier(.16,1,.3,1)',fill:'backwards'});
-      entranceAnimations.push(animation);
-      animation.finished.catch(()=>{}).then(()=>{el.classList.remove('return-reveal-active');active=false;if(!disposed)nextTimer=setTimeout(pump,50);});
-    };
+    let disposed=false;
     returnRevealObserver=new IntersectionObserver(entries=>{
-      entries.forEach(entry=>{if(entry.isIntersecting)ready.add(entry.target);else ready.delete(entry.target);});pump();
-    },{root:page,rootMargin:'0px 0px -80px 0px',threshold:0});
-    returnRevealCleanup=()=>{disposed=true;clearTimeout(nextTimer);ready.clear();};
+      const visible=entries.filter(entry=>entry.isIntersecting);
+      visible.forEach((entry,index)=>{
+        if(disposed)return;
+        const el=entry.target;
+        returnRevealObserver.unobserve(el);
+        el.classList.remove('return-reveal-pending');
+        const base=getComputedStyle(el).transform,transform=base==='none'?'':base+' ';
+        entranceAnimations.push(el.animate([
+          {opacity:0,transform:transform+'translateY(12px) scale(.97)'},
+          {opacity:1,transform:transform+'translateY(0) scale(1)'}
+        ],{duration:600,delay:Math.min(index*100,300),easing:'cubic-bezier(.22,.8,.3,1)',fill:'backwards'}));
+      });
+    },{root:page,rootMargin:'100px 0px',threshold:0});
+    returnRevealCleanup=()=>{disposed=true;};
     elements.forEach(el=>{el.classList.add('return-reveal-pending');returnRevealObserver.observe(el);});
   }
   const fine = matchMedia('(hover: hover) and (pointer: fine)');
@@ -68,6 +68,61 @@
   function fadeIn(el, delay, duration = 200) {
     if (!el || reduced.matches) return;
     entranceAnimations.push(el.animate([{opacity:0},{opacity:1}],{delay,duration,easing:'ease-out',fill:'backwards'}));
+  }
+  // Original cue times define order; this scheduler bounds the wait per object.
+  function paceAssembly(specs,actions) {
+    const ordered=[...actions].sort((a,b)=>a.start-b.start);
+    const lanes=new Map();
+    const owner=action=>specs.find(spec=>spec.el===action.el||spec.el.contains(action.el))?.el
+      ||action.el.closest('.movable')||action.el;
+    for(const action of ordered){
+      const key=owner(action);
+      if(!lanes.has(key))lanes.set(key,[]);
+      lanes.get(key).push(action);
+    }
+    [...lanes.values()].forEach((lane,laneIndex)=>{
+      const offset=Math.min(laneIndex*120,360);
+      const maker=lane[0]?.group||['about','photo','doodle'][laneIndex%3];
+      const textSelector='h1,h2,h3,p,.about-caption-copy,.docs-note';
+      const cues=new Map(lane.map(action=>[action,{start:action.start,end:action.end}]));
+      lane.forEach(action=>{
+        if(action.kind==='draw'){
+          action.group=maker+':'+laneIndex+':0';
+          action.start=80+offset;action.end=action.start+650;
+          const spec=specs.find(spec=>spec.el===action.el);
+          if(spec){spec.start=action.start;spec.draw=650;}
+        }else if(action.el.matches(textSelector))action.kind='type';
+      });
+      // Keep the original placement motion and cadence, but remove waits for typing.
+      let placementClock=850+offset;
+      const placements=lane.filter(action=>action.kind==='place');
+      placements.forEach((action,index)=>{
+        const cue=cues.get(action),previous=lane[lane.indexOf(action)-1];
+        const gap=previous?Math.max(0,Math.min(210,cue.start-cues.get(previous).end)):0;
+        action.group=maker+':'+laneIndex+':place';
+        action.start=placementClock+(index?gap:0);
+        action.end=action.start+(cue.end-cue.start);
+        placementClock=action.end;
+      });
+      // Independent text cursors finish each phrase; nested copy waits only for its own container.
+      const writing=lane.filter(action=>action.kind!=='draw'&&action.kind!=='place');
+      const available=(writing.length>=4?[850,1050,1250]:[850,1050]).map(time=>time+offset);
+      writing.forEach(action=>{
+        const cursor=available.indexOf(Math.min(...available));
+        const containerReady=Math.max(0,...placements.filter(parent=>parent.el!==action.el&&parent.el.contains(action.el)).map(parent=>parent.end));
+        action.group=maker+':'+laneIndex+':'+cursor;
+        action.start=Math.max(available[cursor],containerReady);
+        const heading=action.el.matches('h1,h2,h3');
+        const duration=Math.min(heading?2200:2000,Math.max(750,action.el.textContent.trim().length*(heading?28:16)));
+        action.end=action.start+duration;
+        available[cursor]=action.end+180;
+        delete action.travel;
+      });
+    });
+    actions.sort((a,b)=>a.start-b.start);
+    const total=Math.max(0,...actions.map(action=>action.end))+300;
+    specs.forEach(spec=>spec.done=total-160);
+    return total;
   }
   function assembleSections(specs, actions, total) {
     if (reduced.matches) return;
@@ -125,7 +180,7 @@
       const element=index===0?actor:actor.cloneNode(true);if(index)layer.append(element);
       const names={photo:'Vahri',about:'Maker',belief:'Vahri',beliefRight:'Maker',doodle:'Curious one',approachRight:'Vahri',approachSticker:'Curious one',row0:'Maker',row1:'Vahri',row2:'Curious one',gymSticker:'Pixel pal',coffeeSticker:'Daydreamer',chapter0:'Vahri',chapter1:'Maker',chapter2:'Curious one'};
       element.dataset.group=group;
-      if(group!=='default'){element.classList.add('about-maker');element.querySelector('span').textContent=names[group]||'Maker';element.style.setProperty('--actor-fill',['about','chapter1'].includes(group)?'#e4daf8':['doodle','chapter2'].includes(group)?'#d0ede1':'#c5dcff');}
+      if(group!=='default'){element.classList.add('about-maker');element.querySelector('span').textContent=(group.endsWith(':1')?'Pixel pal':group.endsWith(':2')?'Curious one':names[group.split(':')[0]])||'Maker';element.style.setProperty('--actor-fill',['about','chapter1'].includes(group)?'#e4daf8':['doodle','chapter2'].includes(group)?'#d0ede1':'#c5dcff');}
       return {element,actions:actions.filter(action=>(action.group||'default')===group)};
     });
     let frameRequest;
@@ -188,7 +243,8 @@
     const began=performance.now();
     let lastTick=began;
     function tick(now){
-      const follow=1-Math.exp(-(now-lastTick)/38);
+      const delta=now-lastTick;
+      const follow=1-Math.exp(-delta/65);
       lastTick=now;
       const elapsed=now-began;
       const currentScroll=scrollHost?.scrollTop||0,scrollDelta=currentScroll-lastScroll;
@@ -295,9 +351,10 @@
       if(point){
         if(smoothAbout){
           const previousPoint=actorState.point||point;
+          const tracking=current?.kind==='place'?1-Math.exp(-delta/38):follow;
           point={
-            x:previousPoint.x+(point.x-previousPoint.x)*follow,
-            y:previousPoint.y+(point.y-previousPoint.y)*follow,
+            x:previousPoint.x+(point.x-previousPoint.x)*tracking,
+            y:previousPoint.y+(point.y-previousPoint.y)*tracking,
           };
           actorState.point=point;
         }
@@ -314,6 +371,7 @@
       if(elapsed<total)frameRequest=requestAnimationFrame(tick);else stop();
     }
     frameRequest=requestAnimationFrame(tick);
+    return stop;
   }
   const usesParallelAssembly=page=>['about','work'].includes(page.dataset.view)||page.dataset.view.startsWith('kantong');
   let galleryMotion=null;
@@ -334,8 +392,10 @@
     let disposed=false,nextMaker=0;
     const makers=['about','photo','doodle','gymSticker','coffeeSticker'];
     function finish(el){
-      clearTimeout(active.get(el));
+      const running=active.get(el);
+      if(running){clearTimeout(running.timer);running.stop?.();}
       active.delete(el);
+      observer.unobserve(el);
       el.style.visibility=previous.get(el);
       el.dataset.galleryBuildState='complete';
       if(!active.size)document.body.dataset.galleryPhase='idle';
@@ -343,9 +403,7 @@
     function pump(){
       if(disposed||page.hidden||document.body.classList.contains('page-changing'))return;
       for(const el of ready){
-        if(!parallel&&active.size)return;
         ready.delete(el);
-        observer.unobserve(el);
         start(el);
       }
     }
@@ -461,17 +519,19 @@
         const maker=makers[nextMaker++%makers.length];
         actions.forEach(action=>{action.group=maker;});
       }
-      assembleSections(specs,actions,total);
+      total=paceAssembly(specs,actions);
+      const stop=assembleSections(specs,actions,total);
       el.style.visibility=previous.get(el);
-      active.set(el,setTimeout(()=>{finish(el);pump();},total+40));
+      active.set(el,{stop,timer:setTimeout(()=>{finish(el);pump();},total+40)});
     }
     const observer=new IntersectionObserver(entries=>{
       entries.forEach(entry=>{
-        if(entry.isIntersecting)ready.add(entry.target);
-        else ready.delete(entry.target);
+        if(entry.isIntersecting){
+          if(entry.target.dataset.galleryBuildState==='waiting')ready.add(entry.target);
+        }else{ready.delete(entry.target);if(active.has(entry.target))finish(entry.target);}
       });
       pump();
-    },{root:page,rootMargin:parallel?'48px 0px':'0px 0px -65px 0px',threshold:0});
+    },{root:page,rootMargin:'120px 0px',threshold:0});
     targets.forEach(el=>observer.observe(el));
     return {
       finishCurrent(){active.forEach((_,el)=>finish(el));pump();},
@@ -496,7 +556,7 @@
     const returning=visitedPages.has(page.dataset.view);
     visitedPages.add(page.dataset.view);
     try{sessionStorage.setItem(visitStorageKey,JSON.stringify([...visitedPages]));}catch{}
-    const simpleReturn=returning&&!usesParallelAssembly(page);
+    const simpleReturn=returning;
     page.dataset.entrance=simpleReturn?'simple':'full';
     if(['about','gallery','contact'].includes(page.dataset.view))page.scrollTo({top:0,left:0,behavior:'instant'});
     if(simpleReturn){emergePage(page);return;}
@@ -561,6 +621,7 @@
       });finish=clock+350;
     }
     actions.sort((a,b)=>a.start-b.start);
+    finish=paceAssembly(specs,actions);
     assembleSections(specs,actions,finish);
     fadeIn(page.querySelector('.annotations'),finish,250);
     if(initial&&page.dataset.view!=='about')introductionTimer=setTimeout(()=>{
@@ -574,9 +635,7 @@
         hideTipTimer=setTimeout(()=>{tip.hidden=true},6500);
       };
       if(reduced.matches){showInvitation();return;}
-      loading.hidden=false;
-      loading.animate([{opacity:0,translate:'0 5px',scale:.9},{opacity:1,translate:'0 0',scale:1}],{duration:220,easing:'ease-out'});
-      introductionTimer=setTimeout(showInvitation,1900);
+      showInvitation();
     },reduced.matches?500:finish+100);
   }
   const scrollKeys=new Set(['ArrowDown','ArrowUp','PageDown','PageUp','Home','End',' ']);
@@ -641,7 +700,7 @@
     layer.append(actor);
     const at=(x,y)=>`translate(${x}px,${y}px)`;
     const start=at(bounds.left,bounds.top), end=at(bounds.right,bounds.bottom);
-    const approach=animate(actor,[{opacity:0,transform:at(targetX||bounds.left-60,targetY||bounds.top-40)},{opacity:1,transform:start}],{duration:240,easing:'cubic-bezier(.22,.8,.3,1)'});
+    const approach=animate(actor,[{opacity:0,transform:at(targetX||bounds.left-60,targetY||bounds.top-40)},{opacity:1,transform:start}],{duration:140,easing:'cubic-bezier(.22,.8,.3,1)'});
     await wait(approach); if(cancelled||id!==transitionId)return;
     const marquee=document.createElement('div'); marquee.className='transition-marquee';
     Object.assign(marquee.style,{left:`${bounds.left}px`,top:`${bounds.top}px`});
@@ -652,22 +711,22 @@
     guides.forEach((box,i)=>{
       const r=rectangles[i];
       const covered=Math.max((Math.min(r.right,bounds.right)-bounds.left)/width,(Math.min(r.bottom,bounds.bottom)-bounds.top)/height);
-      animate(box,[{opacity:0},{opacity:1}],{delay:Math.max(0,covered*560-65),duration:90,easing:'ease-out'});
+      animate(box,[{opacity:0},{opacity:1}],{delay:Math.max(0,covered*320-65),duration:90,easing:'ease-out'});
     });
-    animate(marquee,[{width:'0px',height:'0px',backgroundColor:'#4b8ff708'},{width:`${width}px`,height:`${height}px`,backgroundColor:'#4b8ff714'}],{duration:560,easing:'cubic-bezier(.4,0,.2,1)'});
-    await wait(animate(actor,[{transform:start},{transform:end}],{duration:560,easing:'cubic-bezier(.4,0,.2,1)'}));
+    animate(marquee,[{width:'0px',height:'0px',backgroundColor:'#4b8ff708'},{width:`${width}px`,height:`${height}px`,backgroundColor:'#4b8ff714'}],{duration:320,easing:'cubic-bezier(.4,0,.2,1)'});
+    await wait(animate(actor,[{transform:start},{transform:end}],{duration:320,easing:'cubic-bezier(.4,0,.2,1)'}));
     if(cancelled||id!==transitionId)return;
     actor.classList.remove('is-pressing');
     document.dispatchEvent(new CustomEvent('studio:sound',{detail:{kind:'frame-end',source:'animation'}}));
     marquee.classList.add('is-selected');
     const grabX=bounds.left+width*.6, grabY=bounds.top+height*.45;
-    await wait(animate(actor,[{transform:end},{transform:at(grabX,grabY)}],{delay:100,duration:180,easing:'cubic-bezier(.22,.8,.3,1)'}));
+    await wait(animate(actor,[{transform:end},{transform:at(grabX,grabY)}],{duration:140,easing:'cubic-bezier(.22,.8,.3,1)'}));
     if(cancelled||id!==transitionId)return;
     actor.classList.add('is-pressing');
     document.dispatchEvent(new CustomEvent('studio:sound',{detail:{kind:'grab',source:'animation'}}));
     actor.querySelector('svg').innerHTML='<path d="M8 14V6a2 2 0 0 1 4 0v6-8a2 2 0 0 1 4 0v9-6a2 2 0 0 1 4 0v10c0 5-3 8-7 8h-1c-3 0-5-2-7-5L2 15a2 2 0 0 1 3-2l3 3Z"/>';
     const travel=direction>0?-(bounds.right+60):innerWidth-bounds.left+60;
-    const exitOptions={duration:460,easing:'cubic-bezier(.65,0,.35,1)'};
+    const exitOptions={duration:360,easing:'cubic-bezier(.65,0,.35,1)'};
     outgoingSections.forEach((el,i)=>{
       const transform=getComputedStyle(el).transform, base=transform==='none'?'':transform+' ';
       animate(el,[{transform:base+'translateX(0)',opacity:1},{transform:base+`translateX(${travel}px)`,opacity:1}],exitOptions);
@@ -686,16 +745,13 @@
   document.querySelector('.avatar-mark').title='Replay the canvas entrance';
   document.querySelector('.avatar-mark').addEventListener('click',event=>{if(document.querySelector('.home-view')?.hidden===false){event.preventDefault();interacted=false;enterPage(true)}});
   async function startInitialEntrance() {
-    const loaded = document.readyState === 'complete' ? Promise.resolve() : new Promise(resolve => addEventListener('load', resolve, {once:true}));
-    const photo = document.querySelector('.portrait-photo');
-    const imageReady = photo?.decode ? photo.decode().catch(() => {}) : Promise.resolve();
-    // A cold Safari visit must measure the same font, image, and viewport as a refresh.
+    // Bound font readiness so a slow image/network cannot hide the entire page.
     await Promise.race([
-      loaded.then(() => Promise.all([document.fonts?.ready || Promise.resolve(), imageReady])),
-      new Promise(resolve => setTimeout(resolve, 4000))
+      document.fonts?.ready || Promise.resolve(),
+      new Promise(resolve => setTimeout(resolve, 700))
     ]);
     let last = '', stable = 0;
-    const deadline = performance.now() + 800;
+    const deadline = performance.now() + 200;
     while (stable < 3 && performance.now() < deadline) {
       await new Promise(resolve => requestAnimationFrame(resolve));
       const hero = document.querySelector('.hello-card').getBoundingClientRect();
@@ -706,6 +762,10 @@
     root.classList.remove('motion-pending');
     if (!interacted) enterPage(true);
   }
+  reduced.addEventListener('change',()=>{
+    if(!reduced.matches)return;
+    dismissTip();clearGalleryMotion();clearReturnReveal();
+  });
   startInitialEntrance();
 
   const knownNodes = new Set([...document.querySelectorAll('[data-node]')].map(el=>el.dataset.node));

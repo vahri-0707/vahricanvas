@@ -1,10 +1,10 @@
 (() => {
   const companions=[
-    {name:'Vahri',initial:'V',fill:'#d0ede1',stroke:'#538977'},
-    {name:'Nabila',initial:'N',fill:'#e4daf8',stroke:'#9676bd'},
-    {name:'Dreamer',initial:'D',fill:'#f6dce6',stroke:'#bf789a'},
-    {name:'Explorer',initial:'E',fill:'#f8edbb',stroke:'#ad9141'},
-    {name:'Pixel pal',initial:'P',fill:'#c5dcff',stroke:'#6b96c9'}
+    {name:'Vahri',initial:'V',fill:'#65dda7',stroke:'#538977'},
+    {name:'Nabila',initial:'N',fill:'#b59aff',stroke:'#9676bd'},
+    {name:'Dreamer',initial:'D',fill:'#ff8a72',stroke:'#bf789a'},
+    {name:'Explorer',initial:'E',fill:'#ffd23f',stroke:'#ad9141'},
+    {name:'Pixel pal',initial:'P',fill:'#73caff',stroke:'#6b96c9'}
   ];
   const header=document.querySelector('.header-actions'),corner=document.querySelector('.visitor-corner');
   if(!header||!corner)return;

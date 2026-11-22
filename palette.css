@@ -1,0 +1,48 @@
+/* Color accents use the shared tokens in pastel.css; neutral reading surfaces stay legible. */
+:root { --accent-link: #8ccaff; --accent-ink: #182844; }
+html[data-theme="light"] { --accent-link: #2453c6; }
+html :is(.pink,.blue,.mint,.lilac,.yellow) { color: var(--accent-ink); }
+html :is(.hello-content h1,.hello-content p,.contact-card h1,.contact-card > p) { color: var(--accent-ink); }
+html .hello-period { color: #294bd3; }
+html :is(.hello-spark,.portrait-star) { color: #ffb626; }
+html .portrait-crop { border-color: var(--yellow); }
+html .music-toggle { background: var(--blue); color: var(--accent-ink); }
+html .notes-button { background: var(--yellow); color: var(--accent-ink); }
+html .equalizer i { background: #2453c6; }
+html .availability-note { background: var(--mint); color: var(--accent-ink); }
+html .availability-dot { background: #007a49; }
+html .page-view .object-label { color: var(--accent-link); }
+html :is(.visitor-avatar,.studio-owner) { color: var(--accent-ink); border-color: #366aa1; }
+html .visitor-avatar { background: var(--mint); }
+html .studio-owner { background: var(--blue); }
+html .theme-toggle:focus-visible,html .pill:focus-visible { outline-color: #ff9f43; }
+
+/* About: strengthen existing accents; keep the original neutral chapter surfaces. */
+html .page-view[data-view="about"] .chapter-meta > span { color: #304e84; }
+html .page-view[data-view="about"] .chapter-tags .chapter-tag { box-shadow: inset 0 0 0 1px #18284433; }
+html .page-view[data-view="about"] .chapter-specialties { background: var(--yellow); color: var(--accent-ink); }
+html .page-view[data-view="about"] :is(.chapter-resume,.about-quote em) { color: var(--accent-link); }
+html .page-view[data-view="about"] .belief-marker { color: #a53252; }
+html .page-view[data-view="about"] .marker-1 { color: #855200; }
+html .page-view[data-view="about"] .marker-2 { color: #5c34b7; }
+html .page-view[data-view="about"] .marker-3 { color: #2453c6; }
+html .page-view[data-view="about"] .marker-4 { color: #006d4c; }
+html .page-view[data-view="about"] .marker-5 { color: #a33224; }
+
+/* Documentation retains its original panel surfaces. */
+html .gallery-card-preview { border-color: #4484e4; }
+
+/* Say hi: saturated invitation and social cards, with a quiet form surface. */
+html .contact-canvas .contact-hello { background: var(--mint); color: var(--accent-ink); }
+html .contact-canvas .contact-elsewhere { background: var(--lilac); color: var(--accent-ink); }
+html .contact-canvas .contact-hello :is(h1,p,.contact-availability) { color: var(--accent-ink); }
+html .contact-canvas .contact-role-marker { color: #6240b0; }
+html[data-theme="light"] #contact-note-form :is(input,textarea):focus { border-color: #275cf1; box-shadow: 0 0 0 3px #275cf126; }
+html .page-view[data-view="about"] .approach-heading h2 { background: var(--blue); color: var(--accent-ink); }
+html .page-view[data-view="about"] .approach-heading > p { color: var(--accent-link); }
+html .page-view[data-view="about"] .approach-tile { background: var(--blue); }
+html .page-view[data-view="about"] .approach-slide[data-slide="1"] .approach-tile { background: var(--lilac); }
+html .page-view[data-view="about"] .approach-slide[data-slide="2"] .approach-tile { background: var(--mint); }
+html .page-view[data-view="about"] .approach-tile p { color: var(--accent-ink); }
+html .page-view[data-view="about"] .approach-tile-mark { color: #2453c6; }
+html .page-view[data-view="about"] .approach-dots button[aria-current="true"] { background: var(--blue); }

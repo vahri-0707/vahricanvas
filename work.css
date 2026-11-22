@@ -262,10 +262,10 @@ a.work-grid-cover:focus-visible .work-hover-note{visibility:visible;opacity:1;le
   gap: 16px;
   margin: 0;
 }
-.kantong-fact { --fact-color: #f9ecc1; }
-.kantong-fact:nth-child(2) { --fact-color: #d8efe3; }
-.kantong-fact:nth-child(3) { --fact-color: #d9e9fb; }
-.kantong-fact:nth-child(4) { --fact-color: #e9defa; }
+.kantong-fact { --fact-color: var(--kantong-yellow); }
+.kantong-fact:nth-child(2) { --fact-color: var(--kantong-green); }
+.kantong-fact:nth-child(3) { --fact-color: var(--kantong-sky); }
+.kantong-fact:nth-child(4) { --fact-color: var(--kantong-purple); }
 .kantong-fact dt { color: var(--work-muted); font-size: 12px; margin: 0 12px 8px; }
 .kantong-fact dd {
   display: grid;
@@ -282,16 +282,16 @@ a.work-grid-cover:focus-visible .work-hover-note{visibility:visible;opacity:1;le
 .work-view[data-view="kantong"] .kantong-quote {
   box-sizing: border-box;
   padding: 36px 40px;
-  background: #d8efe3;
+  background: var(--kantong-green);
   color: #303440;
 }
-.work-view[data-view="kantong"] .kantong-quote[data-object="kantong-story-9"] { background: #f9ecc1; }
-.work-view[data-view="kantong"] #project-brand { background: #f4dce9; }
+.work-view[data-view="kantong"] .kantong-quote[data-object="kantong-story-9"] { background: var(--kantong-yellow); }
+.work-view[data-view="kantong"] #project-brand { background: var(--kantong-coral); }
 .work-view[data-view="kantong"] .kantong-quote h2 { color: inherit; }
 .kantong-story .kantong-slot.kantong-choice {
   display: block;
-  padding-block: 30px;
-  margin-bottom: 14px;
+  padding-block: 16px;
+  margin-bottom: 64px;
 }
 .kantong-decision {
   --decision-phone: clamp(104px,12vw,140px);
@@ -299,11 +299,13 @@ a.work-grid-cover:focus-visible .work-hover-note{visibility:visible;opacity:1;le
   position: relative;
   width: 70%;
   min-height: 208px;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0,1fr);
   align-items: center;
 }
 .kantong-choice.reverse .kantong-decision { margin-left: auto; }
 .kantong-decision-copy {
+  grid-area: 1 / 1;
   display: grid;
   grid-template-columns: 44px minmax(0,1fr);
   align-items: start;
@@ -322,20 +324,22 @@ html[data-theme=light] .kantong-decision-copy { background: #fff; }
   width: 44px;
   height: 44px;
   border-radius: 52% 51% 50% 24%;
-  background: #f29ab9;
+  background: var(--kantong-coral);
   color: #252031;
   font: 700 18px/1 var(--font);
 }
-.kantong-choice.reverse .kantong-decision-number { background: #83d4af; }
+.kantong-choice.reverse .kantong-decision-number { background: var(--kantong-green); }
 .kantong-decision figure {
-  position: absolute;
-  top: 50%;
+  /* Share the row with the copy, but let the full phone reserve its height. */
+  grid-area: 1 / 1;
+  justify-self: end;
+  position: relative;
   right: calc(var(--decision-overlap) - var(--decision-phone));
   width: var(--decision-phone);
-  translate: 0 -50%;
   rotate: 2deg;
 }
 .kantong-choice.reverse .kantong-decision figure {
+  justify-self: start;
   right: auto;
   left: calc(var(--decision-overlap) - var(--decision-phone));
   rotate: -2deg;
@@ -345,8 +349,9 @@ html[data-theme=light] .kantong-decision-copy { background: #fff; }
   .work-view[data-view="kantong"] .kantong-quote { padding: 28px 26px; }
   .kantong-story .kantong-slot.kantong-choice { padding-block: 0; margin-bottom: 56px; }
   .kantong-decision { width: 100%; display: grid; justify-items: center; gap: 18px; }
-  .kantong-decision-copy,.kantong-choice.reverse .kantong-decision-copy { padding: 24px; gap: 14px; }
+  .kantong-decision-copy,.kantong-choice.reverse .kantong-decision-copy { grid-area: auto; padding: 24px; gap: 14px; }
   .kantong-decision figure,.kantong-choice.reverse .kantong-decision figure {
+    grid-area: auto; grid-column: auto; grid-row: auto; justify-self: center;
     position: static; width: min(100%,180px); translate: none; rotate: none;
   }
 }
@@ -354,46 +359,87 @@ html[data-theme=light] .kantong-decision-copy { background: #fff; }
 /* Center the project title and its shortcuts as one group. */
 .work-view[data-view="kantong"] .case-heading { text-align: center; }
 .work-view[data-view="kantong"] .case-heading .project-section-links { justify-content: center; }
-.work-view[data-view="kantong"] .project-section-links .pill { background: #f8edbb; color: #383326; }
+.work-view[data-view="kantong"] .project-section-links .pill { background: var(--kantong-yellow); color: #383326; }
 .work-view[data-view="kantong"] .project-section-links .pill[aria-current] { box-shadow: inset 0 0 0 1px #9c854949; }
 .work-view[data-view="kantong"] .project-section-links .pill > span[aria-hidden] { display: none; }
 
-/* Kantong's pocket and wordmark share one animated cover. */
+/* One scene and one timeline, shared by the Work tile and Kantong cover. */
 .kantong-story .kantong-story-cover { display: block; padding: 0; min-height: 0; }
-.kantong-brand-cover {
-  position: relative;
+[data-kantong-cover] {
+  --cover-cycle: 8.8s;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   isolation: isolate;
-  display: grid;
-  place-items: center;
-  min-height: clamp(320px,48vw,530px);
-  padding: 46px 22px;
-  overflow: hidden;
-  border-radius: inherit;
-  background: #0875cc;
-  color: #fff3d8;
+  background: var(--kantong-blue, #275cf1);
 }
-.kantong-cover-doodles { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .24; pointer-events: none; }
-.kantong-cover-lockup { display: flex; align-items: center; justify-content: center; gap: clamp(10px,3vw,46px); }
-.kantong-cover-emblem { position: relative; width: clamp(105px,21vw,235px); aspect-ratio: 1.1; }
-.kantong-brand-cover .kantong-cover-emblem { width: clamp(145px, 30vw, 325px); }
-.kantong-cover-hamster { position: absolute; width: 86%; height: auto; left: 7%; bottom: 23%; clip-path: inset(0 0 22% 0); }
-.kantong-cover-pocket { position: absolute; width: 100%; height: auto; aspect-ratio: 220/112; bottom: 0; left: 0; overflow: visible; }
-.kantong-cover-motion { position: absolute; right: 18px; bottom: 16px; border: 1px solid #ffffff70; border-radius: 999px; background: #04518e; color: #fff; padding: 7px 12px; font: 600 12px/1.2 var(--font); cursor: pointer; }
-.kantong-cover-motion[aria-pressed="true"] { background: #fff3d8; color: #16496b; }
-.kantong-cover-motion:focus-visible { outline: 2px solid #fff3d8; outline-offset: 3px; }
-@media(prefers-reduced-motion:no-preference) {
-  .kantong-brand-cover.is-in-view .kantong-cover-hamster { animation: kantong-peek 4.6s ease-in-out infinite; }
+.kantong-brand-cover { position: relative; height: clamp(300px,47vw,530px); overflow: hidden; border-radius: inherit; }
+.kantong-cover-art { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
+.kantong-cover-fallback { width: 32%; height: auto; }
+.kantong-motion-scene { display: block; width: 100%; height: 100%; fill: none; stroke: none; }
+.kantong-motion-scene text { font: 600 28px "Caveat", "Segoe Print", cursive; }
+.kantong-motion-scene .kc-footnote text { font-size: 25px; }
+@media (prefers-reduced-motion:no-preference) {
+  [data-kantong-cover] :is(.kc-receipt,.kc-coin,.kc-pocket,.kc-pocket-back,.kc-hamster,.kc-celebrate,.kc-sorted,.kc-float) {
+    animation-duration: var(--cover-cycle);
+    animation-iteration-count: infinite;
+    animation-timing-function: var(--ease-in-out);
+    animation-fill-mode: both;
+    animation-play-state: paused;
+  }
+  [data-kantong-cover].is-in-view :is(.kc-receipt,.kc-coin,.kc-pocket,.kc-pocket-back,.kc-hamster,.kc-celebrate,.kc-sorted,.kc-float) { animation-play-state: running; }
+  [data-kantong-cover] .kc-float {
+    animation-name: kc-icon-float;
+    animation-duration: var(--float-duration);
+    animation-delay: var(--float-delay);
+    animation-timing-function: var(--ease-in-out);
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  [data-kantong-cover] .kc-receipt { animation-name: kc-receipt-in; }
+  [data-kantong-cover] .kc-coin { animation-name: kc-coin-in; }
+  [data-kantong-cover] :is(.kc-pocket,.kc-pocket-back) { animation-name: kc-pocket-catch; transform-origin: 400px 310px; }
+  [data-kantong-cover] .kc-hamster { animation-name: kc-hamster-peek; }
+  [data-kantong-cover] .kc-celebrate { animation-name: kc-celebrate; }
+  [data-kantong-cover] .kc-sorted { animation-name: kc-sorted; }
 }
-@keyframes kantong-peek {
-  0%,5% { transform: translateY(38%); opacity: 0; }
-  25%,95% { transform: translateY(0); opacity: 1; }
-  100% { transform: translateY(12%); opacity: 0; }
+@keyframes kc-icon-float {
+  0%, 100% { transform: translate(-3px,4px) rotate(-3deg); }
+  50% { transform: translate(4px,-9px) rotate(4deg); }
 }
-.kantong-brand-cover.is-paused .kantong-cover-hamster { animation-play-state: paused; }
-
-@media(max-width:420px) {
-  .kantong-brand-cover { padding-inline: 16px; }
-  .kantong-brand-cover .kantong-cover-emblem { width: clamp(140px,48vw,200px); }
+@keyframes kc-receipt-in {
+  0% { opacity: 0; transform: translate(-15px,8px) rotate(-6deg); }
+  6%, 10% { opacity: 1; transform: translate(0,0) rotate(0); }
+  18% { opacity: 1; transform: translate(110px,-34px) rotate(12deg); }
+  25% { opacity: 1; transform: translate(185px,110px) rotate(18deg); }
+  28%, 100% { opacity: 0; transform: translate(186px,170px) rotate(18deg); }
+}
+@keyframes kc-coin-in {
+  0%, 10% { opacity: 0; transform: translate(10px,-12px) rotate(0); }
+  16%, 20% { opacity: 1; transform: translate(0,0) rotate(0); }
+  29% { opacity: 1; transform: translate(-91px,-32px) rotate(-95deg); }
+  36% { opacity: 1; transform: translate(-181px,130px) rotate(-190deg); }
+  39%, 100% { opacity: 0; transform: translate(-181px,190px) rotate(-200deg); }
+}
+@keyframes kc-pocket-catch {
+  0%, 23%, 32%, 44%, 100% { transform: rotate(0) scale(1); }
+  27% { transform: rotate(-3deg) scale(1.025,.97); }
+  37% { transform: rotate(3deg) scale(1.035,.96); }
+  41% { transform: rotate(-1deg) scale(.99,1.02); }
+}
+@keyframes kc-hamster-peek {
+  0%, 39%, 98%, 100% { transform: translateY(190px); }
+  54% { transform: translateY(-5px); }
+  61%, 83% { transform: translateY(0); }
+}
+@keyframes kc-celebrate { 0%, 52%, 91%, 100% { opacity: 0; } 59%, 83% { opacity: 1; } }
+@keyframes kc-sorted {
+  0%, 51% { opacity: 0; transform: translateY(8px) rotate(-9deg) scale(.95); }
+  60% { opacity: 1; transform: translateY(-2px) rotate(3deg) scale(1.04); }
+  65%, 83% { opacity: 1; transform: translateY(0) rotate(0) scale(1); }
+  91%, 100% { opacity: 0; transform: translateY(0) rotate(0) scale(1); }
+}
+@media (prefers-reduced-motion:reduce) {
+  [data-kantong-cover] :is(.kc-receipt,.kc-coin,.kc-pocket,.kc-pocket-back,.kc-hamster,.kc-celebrate,.kc-sorted,.kc-float) { animation: none; }
 }
 
 .kantong-screen-trigger {
@@ -417,59 +463,125 @@ html[data-theme=light] .kantong-decision-copy { background: #fff; }
 .kantong-story :is(.kantong-prose,.kantong-flow-chapter) > p,
 .kantong-story .kantong-choice > div:first-of-type { max-width: none; }
 
-/* Position the cover doodles independently so they stay spread across the cover. */
-.kantong-cover-doodles { z-index: -1; opacity: .9; }
-.kantong-cover-doodles > svg {
-  position: absolute;
-  left: var(--x);
-  top: var(--y);
-  width: clamp(35px,6vw,79px);
-  height: auto;
-  aspect-ratio: 1;
-  overflow: visible;
-  transform: translate(-50%,-50%) rotate(var(--tilt));
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-/* Filled ink shapes with uneven contours and the pocket’s stitched detail. */
-.kantong-doodle { color: #b7e5ff; --doodle-fill: #3b99d7; }
-.kantong-doodle.is-gold { color: #ffe3a3; --doodle-fill: #d99734; }
-.kantong-doodle.is-cream { color: #fff0cb; --doodle-fill: #72a8cb; }
-.kantong-doodle.is-mint { color: #b8efd9; --doodle-fill: #4a9db3; }
-.kantong-doodle .doodle-shape { fill: var(--doodle-fill); fill-opacity: .54; }
-.kantong-doodle .doodle-detail { stroke-width: 2; }
-.kantong-doodle .doodle-stitch { stroke-width: 1.35; stroke-dasharray: 2.3 3.1; opacity: .88; }
-
 .kantong-storyboard-symbols { position: absolute; width: 0; height: 0; }
-@media(prefers-reduced-motion:no-preference) {
-  .kantong-brand-cover.is-in-view .kantong-cover-doodles > svg {
-    animation: kantong-doodle-drift 4.6s ease-in-out var(--delay) infinite;
-  }
-  .kantong-brand-cover.is-paused .kantong-cover-doodles > svg { animation-play-state: paused; }
-}
-@keyframes kantong-doodle-drift { 50% { translate: 6px -9px; } }
-
 .kantong-story [data-object="kantong-story-14"] { margin-bottom: 74px; }
 .work-view[data-view="kantong"] [data-object="kantong-story-14"] h2 { font-size: 36px; }
+/* Hand-inked mini stories: color lives in the art, copy stays still. */
+.kantong-storyboard {
+  --hand: "Caveat", "Segoe Print", cursive;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+.kantong-storyboard-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin: 0 10px 30px; }
+.kantong-storyboard-toolbar > span { font: 25px/1.15 var(--hand); color: var(--work-text); }
 .kantong-storyboard-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 32px 18px; }
-.kantong-storyboard-card { position: relative; min-width: 0; border-radius: 24px; padding: 10px 10px 18px; background: #1b1c20; }
+.kantong-storyboard-card { --kb-paper: #ffdf51; --kb-blob: #ffb5ce; --kb-accent: #4165eb; position: relative; min-width: 0; border-radius: 24px; padding: 10px 10px 18px; background: #1b1c20; }
+.kantong-storyboard-card:nth-child(4n+2) { --kb-paper: #ff977f; --kb-blob: #ffd74b; --kb-accent: #4165eb; }
+.kantong-storyboard-card:nth-child(4n+3) { --kb-paper: #a5d9ff; --kb-blob: #b0a1ff; --kb-accent: #ffca3a; }
+.kantong-storyboard-card:nth-child(4n+4) { --kb-paper: #c4ee79; --kb-blob: #65d7ae; --kb-accent: #4165eb; }
+.kantong-storyboard-card:nth-child(5) { --kb-paper: #b9a5fa; --kb-blob: #fbafd1; --kb-accent: #ffca3a; }
+.kantong-storyboard-card:nth-child(6) { --kb-paper: #8de1bf; --kb-blob: #d4ef7a; --kb-accent: #4165eb; }
+.kantong-storyboard-card:nth-child(7) { --kb-paper: #ffb8cf; --kb-blob: #ff8a70; --kb-accent: #4165eb; }
+.kantong-storyboard-card:nth-child(8) { --kb-paper: #ffdf51; --kb-blob: #9bd5ff; --kb-accent: #ef604c; }
 html[data-theme="light"] .kantong-storyboard-card { background: #fff; }
-.kantong-storyboard-card > .object-label { left: 12px; }
-.kantong-storyboard-art { display: block; width: 100%; height: auto; aspect-ratio: 4/3; border-radius: 16px; background: #f8f3d9; color: #56534b; }
-.kantong-storyboard-copy { display: grid; grid-template-columns: 27px minmax(0,1fr); gap: 9px; padding: 12px 5px 0; }
-.kantong-storyboard-copy > span { display: grid; place-items: center; width: 27px; height: 27px; border-radius: 50%; background: #c5dcff; color: #304363; font: 700 14px/1 var(--font); }
-.kantong-storyboard-copy h3 { margin: 3px 0 5px; font: 700 17px/1.25 var(--font); }
-.work-view[data-view="kantong"] .kantong-storyboard-copy p { margin: 0; font: 400 14px/1.5 var(--font); }
+.kantong-storyboard-card > .object-label { left: 12px; max-width: calc(100% - 24px); overflow: hidden; text-overflow: ellipsis; }
+.kantong-storyboard-art { display: block; width: 100%; height: auto; aspect-ratio: 4/3; overflow: hidden; border: 1.8px solid #28314a; border-radius: 17px 21px 18px 23px; background: var(--kb-paper); color: #28314a; stroke: #28314a; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.kantong-storyboard-card:nth-child(even) .kantong-storyboard-art { border-radius: 22px 16px 23px 18px; }
+.kb-blob { fill: var(--kb-blob); stroke: none; }
+.kb-pencil { fill: none; stroke: #28314a; stroke-width: 1; opacity: .25; }
+.kb-note { font: 600 20px var(--hand); fill: #28314a; stroke: none; }
+.kb-ground { stroke-width: 1.5; opacity: .4; }
+.kb-scene { fill: none; }
+.kb-confetti { fill: none; }
+.kb-deliver, .kb-receipt, .kb-confirm, .kb-catch, .kb-rock, .kb-scan, .kb-stamp, .kb-source, .kb-confetti { transform-box: fill-box; transform-origin: center; }
+.kantong-storyboard-copy { display: grid; grid-template-columns: 27px minmax(0,1fr); gap: 9px; padding: 14px 5px 0; }
+.kantong-storyboard-copy > span { display: grid; place-items: center; width: 27px; height: 27px; border: 1.3px solid #28314a; border-radius: 45% 52% 44% 53%; background: var(--kb-paper); color: #28314a; font: 700 14px/1 var(--font); }
+.kantong-storyboard-copy h3 { margin: 3px 0 5px; font: 700 20px/1.25 var(--font); }
+.work-view[data-view="kantong"] .kantong-storyboard-copy p { margin: 0; font: 400 15px/1.5 var(--font); }
+/* Loop the explanation while visible; reduced motion keeps the finished artwork. */
+@media (prefers-reduced-motion:no-preference) {
+  .kantong-storyboard-card.has-story-motion :is(.kb-deliver,.kb-receipt,.kb-confirm,.kb-catch,.kb-rock,.kb-scan,.kb-stamp,.kb-source,.kb-confetti,.kb-trail) {
+    animation-duration: 3.6s;
+    animation-iteration-count: infinite;
+    animation-timing-function: var(--ease-in-out);
+    animation-delay: var(--story-delay, 0ms);
+    animation-fill-mode: both;
+    animation-play-state: paused;
+  }
+  .kantong-storyboard-card.has-story-motion.is-story-visible :is(.kb-deliver,.kb-receipt,.kb-confirm,.kb-catch,.kb-rock,.kb-scan,.kb-stamp,.kb-source,.kb-confetti,.kb-trail) { animation-play-state: running; }
+  .has-story-motion .kb-deliver { animation-name: kb-deliver; }
+  .has-story-motion .kb-receipt { animation-name: kb-receipt; }
+  .has-story-motion .kb-confirm { animation-name: kb-confirm; }
+  .has-story-motion .kb-catch { animation-name: kb-catch; }
+  .has-story-motion .kb-rock { animation-name: kb-rock; }
+  .has-story-motion .kb-scan { animation-name: kb-scan; }
+  .has-story-motion .kb-stamp { animation-name: kb-stamp; }
+  .has-story-motion .kb-source { animation-name: kb-source; }
+  .has-story-motion .kb-confetti { animation-name: kb-confetti; }
+  .has-story-motion .kb-trail { animation-name: kb-trail; }
+}
+@keyframes kb-deliver {
+  0%, 8% { transform: translate(-44px,-20px) rotate(-18deg); opacity: 0; }
+  14% { opacity: 1; }
+  38%, 100% { transform: translate(0,0) rotate(0); opacity: 1; }
+}
+@keyframes kb-receipt {
+  0%, 6% { transform: translateY(-22px) rotate(-8deg); opacity: 0; }
+  30%, 100% { transform: translateY(0) rotate(0); opacity: 1; }
+}
+@keyframes kb-confirm {
+  0%, 45% { transform: translateY(12px) scale(.92) rotate(-20deg); opacity: 0; }
+  62% { transform: translateY(-3px) scale(1.06) rotate(5deg); opacity: 1; }
+  74%, 100% { transform: translateY(0) scale(1) rotate(0); opacity: 1; }
+}
+@keyframes kb-catch {
+  0%, 14% { transform: translateY(10px) rotate(-5deg); }
+  36% { transform: translateY(-5px) rotate(4deg); }
+  52%, 100% { transform: translateY(0) rotate(0); }
+}
+@keyframes kb-rock {
+  0%, 8% { transform: rotate(-4deg); }
+  32% { transform: rotate(3deg); }
+  56%, 100% { transform: rotate(0); }
+}
+@keyframes kb-scan {
+  0%, 10% { transform: translate(16px,12px) rotate(12deg); }
+  38% { transform: translate(-24px,-17px) rotate(-8deg); }
+  63% { transform: translate(-17px,10px) rotate(4deg); }
+  85%, 100% { transform: translate(0,0) rotate(0); }
+}
+@keyframes kb-stamp {
+  0%, 25% { transform: translate(25px,-19px) rotate(18deg); opacity: 0; }
+  34% { opacity: 1; }
+  53% { transform: translate(-3px,2px) rotate(-5deg); }
+  67%, 100% { transform: translate(0,0) rotate(0); opacity: 1; }
+}
+@keyframes kb-source {
+  0%, 25% { transform: translate(-20px,-15px) rotate(-12deg); opacity: 0; }
+  56%, 100% { transform: translate(0,0) rotate(0); opacity: 1; }
+}
+@keyframes kb-confetti {
+  0%, 45% { opacity: 0; transform: scale(.94) rotate(-5deg); }
+  66% { opacity: 1; transform: scale(1.05) rotate(2deg); }
+  83%, 100% { opacity: 1; transform: scale(1) rotate(0); }
+}
+@keyframes kb-trail { 0%, 18% { opacity: 0; } 38%, 100% { opacity: 1; } }
+@media (prefers-reduced-motion:reduce) {
+  .kantong-storyboard-card.has-story-motion .kb-scene { animation: kb-soft-reveal 200ms ease; }
+}
+@keyframes kb-soft-reveal { from { opacity: .7; } to { opacity: 1; } }
 @media(max-width:900px) { .kantong-storyboard-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
-@media(max-width:420px) { .kantong-storyboard-grid { gap: 30px 12px; } .kantong-storyboard-copy { grid-template-columns: 22px minmax(0,1fr); gap: 6px; } .kantong-storyboard-copy > span { width: 22px; height: 22px; } }
+@media(max-width:420px) {
+  .kantong-storyboard-grid { gap: 26px 10px; }
+  .kantong-storyboard-card { padding: 6px 6px 14px; border-radius: 18px; }
+  .kantong-storyboard-copy { grid-template-columns: 22px minmax(0,1fr); gap: 6px; padding: 12px 0 0; }
+  .kantong-storyboard-copy > span { width: 22px; height: 22px; font-size: 12px; }
+  .kantong-storyboard-copy h3 { font-size: 16px; }
+  .work-view[data-view="kantong"] .kantong-storyboard-copy p { font-size: 13px; }
+  .kantong-storyboard-toolbar { margin-inline: 6px; }
+}
 
-/* Illustrated storyboard, recovery notes, and the pastel roadmap. */
-.kantong-storyboard-copy h3 { font-size: 20px; }
-.work-view[data-view="kantong"] .kantong-storyboard-copy p { font-size: 15px; }
-.kantong-storyboard-art { color: #605348; }
+/* Recovery notes and roadmap. */
 .kantong-recovery-list {
   display: flex;
   flex-wrap: wrap;
@@ -502,12 +614,12 @@ html[data-theme="light"] .kantong-storyboard-card { background: #fff; }
 .kantong-roadmap-card > .object-label { left: 14px; }
 .work-view[data-view="kantong"] .kantong-roadmap-card h3 { margin: 0 0 7px; font: 700 20px/1.25 var(--font); color: inherit; }
 .work-view[data-view="kantong"] .kantong-roadmap-card p { margin: 0; font: 400 15px/1.5 var(--font); color: inherit; }
-.kantong-recovery-list li,.kantong-roadmap-card { --kantong-pastel: #f9e4e8; }
-.kantong-recovery-list li:nth-child(2),.kantong-roadmap-card:nth-child(4) { --kantong-pastel: #dbeafb; }
-.kantong-recovery-list li:nth-child(3),.kantong-roadmap-card:nth-child(2) { --kantong-pastel: #fbefc1; }
-.kantong-recovery-list li:nth-child(4),.kantong-roadmap-card:nth-child(3) { --kantong-pastel: #daeee3; }
-.kantong-roadmap-card:nth-child(5) { --kantong-pastel: #eadff8; }
-.kantong-roadmap-card:nth-child(6) { --kantong-pastel: #fae7d6; }
+.kantong-recovery-list li,.kantong-roadmap-card { --kantong-pastel: var(--kantong-coral); }
+.kantong-recovery-list li:nth-child(2),.kantong-roadmap-card:nth-child(4) { --kantong-pastel: var(--kantong-sky); }
+.kantong-recovery-list li:nth-child(3),.kantong-roadmap-card:nth-child(2) { --kantong-pastel: var(--kantong-yellow); }
+.kantong-recovery-list li:nth-child(4),.kantong-roadmap-card:nth-child(3) { --kantong-pastel: var(--kantong-green); }
+.kantong-roadmap-card:nth-child(5) { --kantong-pastel: var(--kantong-purple); }
+.kantong-roadmap-card:nth-child(6) { --kantong-pastel: var(--kantong-orange); }
 @media(max-width:760px) { .kantong-roadmap-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 @media(max-width:480px) { .kantong-roadmap-grid { grid-template-columns: 1fr; } }
 
@@ -523,7 +635,10 @@ html[data-theme="light"] .kantong-storyboard-card { background: #fff; }
   list-style: none;
 }
 .kantong-tool-list li { display: grid; justify-items: center; align-content: start; gap: 8px; }
-.kantong-tool-list svg { width: 44px; height: 44px; }
+.kantong-tool-logo { display: grid; place-items: center; width: 44px; height: 44px; }
+.kantong-tool-list img { display: block; width: 44px; height: 44px; object-fit: contain; }
+/* The official Figma SVG includes generous built-in clear space. */
+.kantong-tool-logo img[src$="/figma.svg"] { width: 94px; height: 94px; max-width: none; margin: -25px; }
 .kantong-tool-list strong { font-size: 15px; }
 .kantong-tool-list span { max-width: 145px; color: var(--work-muted); font-size: 13px; line-height: 1.45; }
 .work-footer.kantong-footer-actions { justify-content: center; flex-wrap: wrap; gap: 10px; }
@@ -638,7 +753,7 @@ html[data-theme="dark"] .kantong-flow-chapter { --flow-link: #f4a3c8; --flow-dot
   margin: 0 0 12px;
   padding: 9px 15px;
   border-radius: 999px;
-  background: #e9def8;
+  background: var(--kantong-purple);
   color: #3e354b;
   font: 700 20px/1.25 var(--font);
   letter-spacing: -.25px;
@@ -730,26 +845,45 @@ html[data-theme="dark"] .kantong-flow-chapter { --flow-link: #f4a3c8; --flow-dot
   margin: 22px 0 0;
 }
 
-/* The Work tile uses the same Kantong artwork as the case study cover. */
-.work-kantong-art {
-  isolation: isolate;
-  display: grid;
-  place-items: center;
-  container-type: inline-size;
-  background: #0875cc;
-}
-.work-kantong-art .kantong-cover-emblem { width: 44cqw; }
-@media (prefers-reduced-motion: no-preference) {
-  .work-kantong-art .kantong-cover-hamster { animation: work-kantong-peek 4.6s ease-in-out infinite; }
-}
-@keyframes work-kantong-peek {
-  0%, 100% { transform: translateY(14%); }
-  42%, 60% { transform: translateY(-5%); }
-}
-
-
 .kantong-capture,
 .work-lightbox-image.is-kantong-screen {
   border-radius: 10% / 4.6%;
   box-shadow: none;
 }
+/* Kantong's shared palette spans the case study, flows, and prototype shell. */
+.work-view[data-view^="kantong"] {
+  --kantong-ink: #182844;
+  --kantong-blue: #275cf1;
+  --kantong-sky: var(--blue);
+  --kantong-yellow: var(--yellow);
+  --kantong-coral: var(--pink);
+  --kantong-green: var(--mint);
+  --kantong-purple: var(--lilac);
+  --kantong-orange: #ffb45c;
+}
+.work-view[data-view^="kantong"] :is(.object-label,.kantong-fact dt,.kantong-screen-label) { color: #92bcff; }
+html[data-theme="light"] .work-view[data-view^="kantong"] :is(.object-label,.kantong-fact dt,.kantong-screen-label) { color: #2858b5; }
+.work-view[data-view^="kantong"] .pill { background: var(--kantong-yellow); color: var(--kantong-ink); border-color: transparent; }
+.work-view[data-view^="kantong"] .pill.blue { background: var(--kantong-sky); }
+.work-view[data-view^="kantong"] .pill.lilac { background: var(--kantong-purple); }
+.work-view[data-view^="kantong"] .pill.pink { background: var(--kantong-coral); }
+.work-view[data-view^="kantong"] .pill.mint { background: var(--kantong-green); }
+.work-view[data-view^="kantong"] .project-section-links .pill[aria-current] { box-shadow: inset 0 0 0 2px var(--kantong-ink); }
+/* Tools is explicitly white in both themes; the remaining prose and decision cards
+   use their original white/light and charcoal/dark surfaces. */
+.work-view[data-view="kantong"] .kantong-prose.kantong-tools {
+  background: #fff;
+  color: var(--kantong-ink);
+}
+.work-view[data-view="kantong"] .kantong-tools :is(h2,p,.kantong-tool-list span) { color: inherit; }
+.work-view[data-view="kantong"] .kantong-storyboard-card { background: var(--work-panel); }
+.work-view[data-view^="kantong"] .kantong-flow-chapter {
+  --flow-link: #ff967d;
+  --flow-dot: #50e5aa;
+}
+html[data-theme="light"] .work-view[data-view^="kantong"] .kantong-flow-chapter { --flow-link: #c13d33; --flow-dot: #008757; }
+.work-view[data-view^="kantong"] :is(.kantong-strip,.kantong-flow-track) { scrollbar-color: var(--kantong-blue) transparent; }
+.work-view[data-view^="kantong"] :is(a,button,[tabindex]):focus-visible { outline-color: #ff9f43; }
+
+.kantong-recovery-list li:first-child { --kantong-pastel: var(--kantong-purple); }
+.kantong-recovery-list li:nth-child(5) { --kantong-pastel: var(--kantong-orange); }

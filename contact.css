@@ -1,6 +1,6 @@
 .contact-board.contact-canvas{position:relative;top:auto;left:auto;transform:none;scale:1;width:calc(100% - 120px);max-width:1120px;margin:clamp(150px,20vh,220px) auto 170px;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:40px 24px;align-items:start;z-index:1}
 .contact-canvas .contact-hello,.contact-canvas .contact-note,.contact-canvas .contact-elsewhere{position:relative;border-radius:30px;padding:36px;min-width:0;box-shadow:none;transform:none;rotate:none}
-.contact-canvas .contact-hello{grid-column:1;grid-row:1;background:#d0ede1;color:#303440;padding-top:44px}
+.contact-canvas .contact-hello{grid-column:1;grid-row:1;background:#65dda7;color:#303440;padding-top:44px}
 .contact-canvas .contact-hello h1{font:700 36px/1.18 var(--font);letter-spacing:-.9px;color:#303440;margin:0 0 20px;position:relative;z-index:1}
 .contact-canvas .contact-hello>p{font:400 17px/1.6 var(--font);color:#46584f;max-width:355px;margin:0 0 24px}
 .contact-envelope{position:absolute;right:22px;top:-42px;width:112px;height:102px;transform:rotate(12deg);transform-origin:50% 80%;animation:contact-letter 5s ease-in-out infinite}
@@ -8,7 +8,7 @@
 .contact-availability{font:500 15px/1.5 var(--font);color:#3d5c4f;display:flex;align-items:center;gap:9px;margin:0 0 24px}
 .contact-availability>.contact-role-marker{display:grid;place-items:center;width:26px;height:26px;flex:none;color:#7661a3;animation:contact-role-wiggle 5s ease-in-out infinite}
 .contact-role-marker svg{width:26px;height:26px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
-.contact-role-marker .role-spark{fill:#e4daf866;stroke-dasharray:1;animation:contact-role-ink 5s ease-in-out infinite}
+.contact-role-marker .role-spark{fill:#b59aff66;stroke-dasharray:1;animation:contact-role-ink 5s ease-in-out infinite}
 .contact-role-marker .role-twinkle{stroke:#ae698c;stroke-dasharray:1;animation:contact-role-ink 5s .35s ease-in-out infinite}
 @keyframes contact-role-ink{0%{stroke-dashoffset:1;opacity:.3}25%,80%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:-1;opacity:.3}}
 @keyframes contact-role-wiggle{0%,100%{transform:rotate(-9deg) scale(.94)}50%{transform:rotate(10deg) scale(1.08)}}
@@ -33,9 +33,9 @@
 .contact-form-footer{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .contact-form-footer>span{font:400 italic 15px/1.5 var(--font);color:#a7b1c3}
 #contact-note-form .contact-form-help,#contact-note-form .contact-form-status{font:400 15px/1.5 var(--font);color:#a9adb9;margin:-7px 0 0}
-#contact-note-form .contact-form-status{color:#c5dcff;background:#253348;padding:12px 14px;border-radius:14px;margin:0}
+#contact-note-form .contact-form-status{color:#73caff;background:#253348;padding:12px 14px;border-radius:14px;margin:0}
 #contact-note-form .contact-form-status[hidden]{display:none}
-.contact-canvas .contact-elsewhere{grid-column:1;grid-row:2;background:#e4daf8;color:#303440;padding:28px 36px}
+.contact-canvas .contact-elsewhere{grid-column:1;grid-row:2;background:#b59aff;color:#303440;padding:28px 36px}
 .contact-socials{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
 html[data-theme=light] .contact-note{background:#fff;color:#303440;box-shadow:0 12px 40px #7185b00a}
 html[data-theme=light] .contact-note>p,html[data-theme=light] #contact-note-form .contact-form-help{color:#626575}
